@@ -8,6 +8,7 @@ The functionality is listed below:
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/welcomemessages.PNG)
 #### Welcome DM
    * Welcomes new members into the server by sending them a DM
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/welcomedm.PNG)
 #### Chat response
    * Responds to "hello" with "Wubbalubbadubdub"
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/hello.PNG)
