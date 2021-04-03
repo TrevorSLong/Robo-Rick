@@ -5,12 +5,15 @@ The functionality is listed below:
 
 #### Welcome message
    * Welcomes new members into the server by name with a random welcome message from Rick and Morty
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/welcomemessages.PNG)
 #### Welcome DM
    * Welcomes new members into the server by sending them a DM
 #### Chat response
    * Responds to "hello" with "Wubbalubbadubdub"
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/hello.PNG)
 #### Changes bot status
    * Robo Ricks status is "Listening to Snake Jazz"
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/status.PNG)
 #### Ping
    * Responds to $ping with "pong" and the bot server latency
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ping.PNG)
@@ -19,20 +22,25 @@ The functionality is listed below:
    * The channel will be changed to the channel that you send the command in
    * By default this channel will be the top text channel in the server
    * To change this permission, the user must have the "Ban members" permission in the Discord server
-#### UpdateChannel
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/updatechannel.PNG)
+#### AdminChannel
    * Use $adminchannel to change the channel Robo Rick sends all admin updates
    * The channel will be changed to the channel that you send the command in
    * By default this channel will be the top text channel in the server
    * To change this permission, the user must have the "Ban members" permission in the Discord server
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/adminchannel.PNG)
 #### Join server message
    * Robo Rick sends a message in the default channel when he joins the server for the first time introducing himself
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/joinmessage.PNG)
 #### Announcements
    * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
 #### 3070/3080 Stock announcement
    * IMPORTANT: If you use the bot I host you will not be able to use this command
    * This command essentially lets you broadcast a preset message to two channels with a simple command
 #### Help
    * $help is here! Type this to get a less detailed summary of what is above.   
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/help.PNG)
 
 # Git Command
 `git clone https://github.com/DroTron/Robo-Rick`
