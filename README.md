@@ -36,7 +36,6 @@ The functionality is listed below:
 #### Announcements
    * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
-<<<<<<< Updated upstream
 =======
 #### Kick
    * $kick "__" "__" kicks a member for a either a specified or unspecified reason
