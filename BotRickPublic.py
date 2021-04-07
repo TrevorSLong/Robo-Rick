@@ -178,7 +178,7 @@ async def kick_error(ctx, error):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to kick members.')
 
         
-##############Kick command (working)###########################################################################################
+##############Ban command (working)###########################################################################################
 @bot.command(name="ban",pass_context=True,help="/\ bans a member of the server (Needs permission ban members for this command)",brief="$ban _____ _____ bans a member from the server with the following reason")
 @has_permissions(ban_members=True)
 async def ban(ctx, user: discord.Member, *, reason = None):
