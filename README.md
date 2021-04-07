@@ -36,6 +36,33 @@ The functionality is listed below:
 #### Announcements
    * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
+#### Kick
+   * $kick "__" "__" kicks a member for a either a specified or unspecified reason
+   * Sends an update in Admin channel and sends the reason in a DM to the member who was kicked
+   * Example: `$kick @DroTron#1863 for this really valid reason` 
+   * If a reason is specified:
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick1.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick3.PNG)
+   * If no reason is specified:  
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR1.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR3.PNG) 
+#### Ban
+   * $ban "__" "__" bans a member for a either a specified or unspecified reason
+   * Sends an update in Admin channel and sends the reason in a DM to the member who was banned
+   * Example: `$ban @DroTron#1863 for this really valid reason` 
+   * If a reason is specified:
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban1.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban3.PNG)
+   * If no reason is specified:  
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR1.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR3.PNG)
+#### Error handling
+   * Sends an error if a member tries to use a command they do not have access to  
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/errorhandling.PNG)   
 #### 3070/3080 Stock announcement
    * IMPORTANT: If you use the bot I host you will not be able to use this command
    * This command essentially lets you broadcast a preset message to two channels with a simple command
