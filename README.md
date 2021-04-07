@@ -48,7 +48,7 @@ The functionality is listed below:
       * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick3.png)
    * If no reason is specified:
-      * In chat where command was issued
+      * In chat where command was issued     return
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR1.PNG)
       * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR2.PNG)
@@ -66,8 +66,7 @@ The functionality is listed below:
       * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban3.png)
    * If no reason is specified:  
-      * In text chat where the command was issued by a member with the ability to ban                    return 
-	  
+      * In text chat where the command was issued
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR1.PNG)
       * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR2.PNG)
