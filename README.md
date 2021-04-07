@@ -43,24 +43,36 @@ The functionality is listed below:
    * Sends an update in Admin channel and sends the reason in a DM to the member who was kicked
    * Example: `$kick @DroTron#1863 for this really valid reason` 
    * If a reason is specified:
+      * In chat where command was issued
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick1.PNG)
+      * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick2.PNG)
+      * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick3.png)
-   * If no reason is specified:  
+   * If no reason is specified:
+      * In chat where command was issued
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR1.PNG)
+      * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR2.PNG)
+      * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR3.png) 
 #### Ban
    * $ban "__" "__" bans a member for a either a specified or unspecified reason
    * Sends an update in Admin channel and sends the reason in a DM to the member who was banned
    * Example: `$ban @DroTron#1863 for this really valid reason` 
    * If a reason is specified:
+      * In chat where command was issued
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban1.PNG)
+      * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban2.PNG)
+      * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban3.png)
    * If no reason is specified:  
+      * In chat where command was issued
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR1.PNG)
+      * In Admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR2.PNG)
+      * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR3.png)
 #### Error handling
    * Sends an error if a member tries to use a command they do not have access to  
