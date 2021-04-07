@@ -79,7 +79,7 @@ The functionality is listed below:
       * In the admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban1.PNG)
       * In the users DM with Robo Rick
-![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban2.png)
 #### Tempban
    * `$tempban user days reason` bans a user for a certain number of days for a reason and then unbans them
    * Example: `$tempban @Knightmare 2 because he sucks` 
@@ -87,9 +87,9 @@ The functionality is listed below:
       * In the admin channel
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban1.PNG)
       * In the users DM with Robo Rick
-![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban2.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban2.png)
       * In the users DM with Robo Rick after the time has passed
-![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban3.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban3.png)
       * In the admin channel after the time has passed
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban4.PNG)
 #### Error handling
