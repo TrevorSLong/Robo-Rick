@@ -66,7 +66,7 @@ The functionality is listed below:
       * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban3.png)
    * If no reason is specified:  
-      * In chat where command was issued   
+      * In chat where command was issued     return 
 	  
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR1.PNG)
       * In Admin channel
