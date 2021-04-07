@@ -146,6 +146,11 @@ async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce.')
         
+##############Server count command (working)###########################################################################################
+@bot.command(name="servercount",pass_context=True,help="/\ lists the number of servers Robo Rick is active in",brief="$servercount lists the number of servers Robo Rick is active in")
+async def servercount(ctx):
+    await ctx.channel.send("I'm currently active in " + str(len(bot.guilds)) + " servers!")
+
 ##############Kick command (working)###########################################################################################
 @bot.command(name="kick",pass_context=True,help="/\ kicks a member of the server (Needs permission kick members for this command)",brief="$kick _____ _____ kicks a member from the server with the following reason")
 @has_permissions(kick_members=True)
