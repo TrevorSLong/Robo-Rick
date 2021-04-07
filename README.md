@@ -65,7 +65,6 @@ The functionality is listed below:
 #### Error handling
    * Sends an error if a member tries to use a command they do not have access to  
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/errorhandling.png)   
->>>>>>> Stashed changes
 #### 3070/3080 Stock announcement
    * IMPORTANT: If you use the bot I host you will not be able to use this command
    * This command essentially lets you broadcast a preset message to two channels with a simple command
