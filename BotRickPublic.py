@@ -101,7 +101,7 @@ async def updatechannel(ctx):
 @updatechannel.error
 async def updatechannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to change the update channel.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to change the update channel.')
         
 ##############Allows for the admin channel to be changed (working)##############################################################################
 @bot.command(name="adminchannel",pass_context=True,help="Use /\ to change the admin announcements channel to the channel that you used the command in.\n You will need to be able to ban people to use this command",brief="Use $adminchannel to change the channel where all admin announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission ban members for this command)")
@@ -119,7 +119,7 @@ async def adminchannel(ctx):
 @adminchannel.error
 async def adminchannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to change the admin channel.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to change the admin channel.')
         
 ##############Anouncement command (working)###########################################################################################
 @bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)")
@@ -139,14 +139,14 @@ async def announce(ctx,*,message,):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
-    await channel.send(f'{ctx.message.author} sent an announcement in the updates channel')
+    await channel.send(f'**{ctx.message.author}** sent an announcement in the updates channel')
 
 @announce.error
 async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce.')
         
-##############Kick command (not working)###########################################################################################
+##############Kick command (working)###########################################################################################
 @bot.command(name="kick",pass_context=True,help="/\ kicks a member of the server (Needs permission kick members for this command)",brief="$kick _____ _____ kicks a member from the server with the following reason")
 @has_permissions(kick_members=True)
 async def kick(ctx, user: discord.Member, *, reason = None):
@@ -157,7 +157,9 @@ async def kick(ctx, user: discord.Member, *, reason = None):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
-    await channel.send(f"**{user}** has been kicked for **no reason**.")
+    await channel.send(f"**{user}** has been kicked for **no reason** by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been kicked from **{ctx.message.guild}** for **reason not specified**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
     
   else:
     await user.kick(reason=reason)
@@ -165,17 +167,56 @@ async def kick(ctx, user: discord.Member, *, reason = None):
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+    await user.send(f'Hello **{user}**, you have been kicked from **{ctx.message.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
     
-    await channel.send(f"**{user}** has been kicked for **{reason}**.")
+    await channel.send(f"**{user}** has been kicked for **{reason}** by **{ctx.message.author}**.")
+
+@kick.error
+async def kick_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to kick members.')
+
+        
+##############Kick command (working)###########################################################################################
+@bot.command(name="ban",pass_context=True,help="/\ bans a member of the server (Needs permission ban members for this command)",brief="$ban _____ _____ bans a member from the server with the following reason")
+@has_permissions(ban_members=True)
+async def ban(ctx, user: discord.Member, *, reason = None):
+  if not reason:
+    await user.ban()
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been banned for **no reason** by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **reason not specified**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+  else:
+    await user.ban(reason=reason)
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+    await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+    await channel.send(f"**{user}** has been banned for **{reason}** by **{ctx.message.author}**.")
+
+@ban.error
+async def ban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
 
 ##############Public Welcome (working)########################################################################################################
 @bot.event
 async def on_member_join(member):
 
     await member.create_dm()
-    newUDM1 = f'Hi {member.name}, welcome to {member.guild}!'
+    newUDM1 = f'Hi **{member.name}**, welcome to **{member.guild}**!'
     newUDM2 = f'Please read the rules and agree to start chatting.'
-    newUDM3 = f'If you need any help from me just type $help in any channel'
+    newUDM3 = f'If you need any help from me just type **$help** in any channel'
     newUDM4 = f'Im Pickle Rickkkkkkk!'
     await member.dm_channel.send(newUDM1 + '\n' + newUDM2 + '\n' + newUDM3 + '\n' + newUDM4)
 
@@ -200,7 +241,7 @@ async def on_member_join(member):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Bot Rick successfully sent welcome message and DM about {member.name} joining Froopyland.')
+    await channel.send(f'Bot Rick successfully sent welcome message and DM about **{member.name}** joining Froopyland.')
 
 ##############Public Leave message (working)###########################################################################################
 @bot.event
@@ -210,13 +251,13 @@ async def on_member_remove(member):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Looks like {member.name} decided to leave, good riddance.')
+    await channel.send(f'Looks like **{member.name}** decided to leave, good riddance.')
     
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Bot Rick successfully sent leave message about {member.name} leaving Froopyland.')
+    await channel.send(f'Bot Rick successfully sent leave message about **{member.name}** leaving Froopyland.')
                        
 ##############Responds to hello (working)###########################################################################################
 @bot.event
@@ -239,16 +280,16 @@ async def ping(ctx):
 async def bbyinstock(ctx):
     if ctx.message.guild == 'Froopyland':
         channel = bot.get_channel(int(C3080_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by {ctx.message.author}')
+        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
         channel = bot.get_channel(int(C3070_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by {ctx.message.author}')
+        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
     else:
-        await ctx.channel.send(f'Sorry {ctx.message.author}, this command is not ready for your server')
+        await ctx.channel.send(f'Sorry **{ctx.message.author}**, this command is not ready for your server')
         
 @bbyinstock.error
 async def bbyinstock_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce RTX3000 stock.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce RTX3000 stock.')
 
 
 ##############Responds to $help (working)########################################################################################################
