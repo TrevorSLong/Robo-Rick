@@ -23,7 +23,9 @@ import json
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Member
+from discord import User
 from discord.ext.commands import has_permissions, MissingPermissions
+from discord.ext.commands import Bot, guild_only
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN') #Grabs bot token from .env file
@@ -146,6 +148,11 @@ async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce.')
         
+##############Server count command (working)###########################################################################################
+@bot.command(name="servercount",pass_context=True,help="/\ lists the number of servers Robo Rick is active in",brief="$servercount lists the number of servers Robo Rick is active in")
+async def servercount(ctx):
+    await ctx.channel.send("I'm currently active in " + str(len(bot.guilds)) + " servers!")
+
 ##############Kick command (working)###########################################################################################
 @bot.command(name="kick",pass_context=True,help="/\ kicks a member of the server (Needs permission kick members for this command)",brief="$kick _____ _____ kicks a member from the server with the following reason")
 @has_permissions(kick_members=True)
@@ -209,6 +216,81 @@ async def ban_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
 
+##############Unban command (working)###########################################################################################
+@bot.command(name="unban",pass_context=True,help="/\ unbans a member of the server (Needs permission ban members for this command). Syntax: '$unban User#1234'. Do not use the @name like you can with ban and kick",brief="$unban _____ _____ bans a member from the server with the following reason")
+@has_permissions(ban_members=True)
+@guild_only()
+async def unban(ctx, *, member,):
+  banned_users = await ctx.guild.bans()
+  member_name, member_discriminator = member.split('#')
+  for ban_entry in banned_users:
+    user = ban_entry.user
+  
+  if (user.name, user.discriminator) == (member_name, member_discriminator):
+    await ctx.guild.unban(user)
+
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been unbanned by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been unbanned from **{ctx.message.guild}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    return
+
+@unban.error
+async def unban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to unban members.')
+
+##############Temporary Ban command (not working)###########################################################################################               
+@bot.command(name="tempban",pass_context=True,help="/\ bans a member of the server for an amount of time in days (Needs permission ban members for this command)",brief="$ban _____ _____ bans a member from the server for x days")
+@has_permissions(ban_members=True)
+async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
+    if not reason:
+        await user.ban()
+    
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+        await channel.send(f"**{user}** has been banned for **no reason** by **{ctx.message.author}** for **{duration}** days.")
+
+        await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **reason not specified** for **{duration}** days. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+
+        #Unban process below
+        await asyncio.sleep(duration*60*60*24)
+        await ctx.guild.unban(user)
+
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+        await channel.send(f"**{user}** has been unbanned after **{duration}** days.")
+        
+    else:
+        await user.ban(reason=reason)
+    
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+        await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **{reason}** for **{duration}** days. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+        await channel.send(f"**{user}** has been banned for **{reason}** by **{ctx.message.author}** for **{duration}** days.")
+
+        #Unban process below
+        await asyncio.sleep(duration*60*60*24)
+        await ctx.guild.unban(user)
+
+        await channel.send(f"**{user}** has been unbanned after **{duration}** days.")
+        await user.send(f'Hello **{user}**, you have been unbanned from **{ctx.message.guild}** after **{duration}** days for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+        
+@tempban.error
+async def tempban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
+        
 ##############Public Welcome (working)########################################################################################################
 @bot.event
 async def on_member_join(member):
@@ -241,7 +323,7 @@ async def on_member_join(member):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Bot Rick successfully sent welcome message and DM about **{member.name}** joining Froopyland.')
+    await channel.send(f'Bot Rick successfully sent welcome message and DM about **{member.name}** joining **{member.guild}**.')
 
 ##############Public Leave message (working)###########################################################################################
 @bot.event
@@ -257,7 +339,7 @@ async def on_member_remove(member):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Bot Rick successfully sent leave message about **{member.name}** leaving Froopyland.')
+    await channel.send(f'Bot Rick successfully sent leave message about **{member.name}** leaving **{member.guild}**.')
                        
 ##############Responds to hello (working)###########################################################################################
 @bot.event
