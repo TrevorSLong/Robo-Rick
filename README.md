@@ -72,6 +72,26 @@ The functionality is listed below:
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR2.PNG)
       * In users DM with Robo Rick
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR3.png)
+#### Unban
+   * $unban unbans a user that was previously banned
+   * Example: `$unban DroTron#1863` 
+   * **Important**: in ban and kick use @DroTron after the command but here use DroTron#1863 with no @
+      * In the admin channel
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban1.PNG)
+      * In the users DM with Robo Rick
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban2.PNG)
+#### Tempban
+   * `$tempban user days reason` bans a user for a certain number of days for a reason and then unbans them
+   * Example: `$tempban @Knightmare 2 because he sucks` 
+   * Robo Rick sends an announcement in the admin channel and sends the user a DM
+      * In the admin channel
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban1.PNG)
+      * In the users DM with Robo Rick
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban2.PNG)
+      * In the users DM with Robo Rick after the time has passed
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban3.PNG)
+      * In the admin channel after the time has passed
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban4.PNG)
 #### Error handling
    * Sends an error if a member tries to use a command they do not have access to  
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/errorhandling.png)   
