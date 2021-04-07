@@ -121,7 +121,7 @@ async def adminchannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to change the admin channel.')
         
-##############Anouncement command (not working)###########################################################################################
+##############Anouncement command (working)###########################################################################################
 @bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)")
 @has_permissions(ban_members=True)
 async def announce(ctx,*,message,):
@@ -145,6 +145,28 @@ async def announce(ctx,*,message,):
 async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry {ctx.message.author}, you do not have permission to announce.')
+        
+##############Kick command (not working)###########################################################################################
+@bot.command(name="kick",pass_context=True,help="/\ kicks a member of the server (Needs permission kick members for this command)",brief="$kick _____ _____ kicks a member from the server with the following reason")
+@has_permissions(kick_members=True)
+async def kick(ctx, user: discord.Member, *, reason = None):
+  if not reason:
+    await user.kick()
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been kicked for **no reason**.")
+    
+  else:
+    await user.kick(reason=reason)
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been kicked for **{reason}**.")
 
 ##############Public Welcome (working)########################################################################################################
 @bot.event
