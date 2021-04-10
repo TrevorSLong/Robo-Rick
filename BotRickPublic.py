@@ -88,8 +88,8 @@ async def on_guild_join(guild):
     await channel.send(f'Hi everyone, thanks for inviting me to the server!\nUse $help to see all my commands and get started\nGo to the channel you want me to send updates in and do $updatechannel\nGo to the channel you want admin updates in and do $adminchannel\nWubalubadubdub!')
 
 ##############Allows for the update channel to be changed (working)##############################################################################
-@bot.command(name="updatechannel",pass_context=True,help="Use /\ to change the public announcements channel to the channel that you used the command in.\n You will need to be able to ban people to use this command",brief="Use $updatechannel to change the channel where all announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission ban members for this command)")
-@has_permissions(ban_members=True)
+@bot.command(name="updatechannel",pass_context=True,help="Use /\ to change the public announcements channel to the channel that you used the command in.\n You will need to be able to `Manage Server` people to use this command",brief="Use $updatechannel to change the channel where all announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission `Manage Server` for this command)")
+@has_permissions(manage_guild=True)
 async def updatechannel(ctx):
     with open("welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
@@ -103,11 +103,11 @@ async def updatechannel(ctx):
 @updatechannel.error
 async def updatechannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to change the update channel.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the update channel.')
         
 ##############Allows for the admin channel to be changed (working)##############################################################################
-@bot.command(name="adminchannel",pass_context=True,help="Use /\ to change the admin announcements channel to the channel that you used the command in.\n You will need to be able to ban people to use this command",brief="Use $adminchannel to change the channel where all admin announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission ban members for this command)")
-@has_permissions(ban_members=True)
+@bot.command(name="adminchannel",pass_context=True,help="Use /\ to change the admin announcements channel to the channel that you used the command in.\n You will need to be able to `Manage Server` to use this command",brief="Use $adminchannel to change the channel where all admin announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission `Manage Server` for this command)")
+@has_permissions(manage_guild=True)
 async def adminchannel(ctx):
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
@@ -121,11 +121,11 @@ async def adminchannel(ctx):
 @adminchannel.error
 async def adminchannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to change the admin channel.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the admin channel.')
         
 ##############Anouncement command (working)###########################################################################################
-@bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission ban members for this command)")
-@has_permissions(ban_members=True)
+@bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)")
+@has_permissions(manage_guild=True)
 async def announce(ctx,*,message,):
     
     embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
@@ -146,7 +146,7 @@ async def announce(ctx,*,message,):
 @announce.error
 async def announce_error(ctx, error):
     if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce.')
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
         
 ##############Server count command (working)###########################################################################################
 @bot.command(name="servercount",pass_context=True,help="/\ lists the number of servers Robo Rick is active in",brief="$servercount lists the number of servers Robo Rick is active in")
