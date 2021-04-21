@@ -40,7 +40,7 @@ The functionality is listed below:
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
    * Announcements can be sent to a specific channel by adding the channel ID as an optional arguement
    * Example: $announce 123456789 This announcement was sent to a specific channel instead of the update channel
-![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announcespecific.PNG)
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announcespecific.jpg)
 #### Kick
    * $kick "__" "__" kicks a member for a either a specified or unspecified reason
    * Sends an update in Admin channel and sends the reason in a DM to the member who was kicked
