@@ -38,6 +38,9 @@ The functionality is listed below:
    * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel     return
    * You will need the permission 'Manage Channel' to use this command
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
+   * Announcements can be sent to a specific channel by adding the channel ID as an optional arguement
+   * Example: $announce 123456789 This announcement was sent to a specific channel instead of the update channel
+![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announcespecific.PNG)
 #### Kick
    * $kick "__" "__" kicks a member for a either a specified or unspecified reason
    * Sends an update in Admin channel and sends the reason in a DM to the member who was kicked

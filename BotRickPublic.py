@@ -339,7 +339,7 @@ async def on_member_join(member):
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
-    await channel.send(f'Bot Rick successfully sent welcome message and DM about **{member.name}** joining **{member.guild}**.')
+    await channel.send(f'Robo Rick successfully sent welcome message and DM about **{member.name}** joining **{member.guild}**.')
 
 ##############Public Leave message (working)###########################################################################################
 @bot.event
@@ -371,6 +371,22 @@ async def on_message(message):
 )
 async def ping(ctx):
 	await ctx.channel.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+
+##############Reponds to $donate (working)########################################################################################################
+@bot.command(
+	help="•Brings up information on how to donate towards Robo Ricks development", 	
+	brief="•Brings up information on how to donate towards Robo Ricks development" 
+)
+async def donate(ctx):
+    embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" Hello **{ctx.message.author}**, I'm glad someone finally appreciates my genius! Thank you for your interest in donating! Your donation will help with the cost of hosting and developing me for servers like **{ctx.message.guild}**!")
+
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/DonateQRCode.png")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+
+    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
+
+    await ctx.channel.send(embed=embed)
+
 
 ###############3080/3070 stock announcement (manually announce in multiple channels that something happened with one command)######################################################################
 @bot.command(name="bbyinstock",pass_context=True,help="•BBYInStock is specific to the creators server, this will not work on your server. $bbyinstock sends an announcement in 3070/3080 channels that best buy has stock of 3070/3080, to be triggered manually by Admin or Mod",brief="•Sends an announcement in 3070/3080 channels that Best Buy has stock of 3070/3080, to be triggered manually by Admin or Mod")
