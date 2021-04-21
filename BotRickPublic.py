@@ -137,33 +137,28 @@ async def adminchannel_error(ctx, error):
 ##############Anouncement command (working)###########################################################################################
 @bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)")
 @has_permissions(manage_guild=True)
-#async def announce(ctx, announcechannel = None,*, message,):
-async def announce(ctx,*,message,):
-  #if not announcechannel:   
-    embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
+async def announce(ctx, *, message):
+    if message.split()[0].isdigit():
+        isChannelIDincluded = bot.get_channel(int(message.split()[0])) is not None
+    else:
+        isChannelIDincluded = False
+    if isChannelIDincluded:
+        embed = discord.Embed(title="Announcement",description=message[message.index(' ') + 1:],color=0x9208ea)
+    else:
+        embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
-    
-    with open("welcomechannels.json", "r") as f:
-        guildInfo = json.load(f)
-    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-    
+    if not isChannelIDincluded:
+        with open("welcomechannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    else:
+        channel = bot.get_channel(int(message.split()[0]))
     await channel.send(embed=embed)
-    
+
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     await channel.send(f'**{ctx.message.author}** sent an announcement in the updates channel')
-#  else:
-#    embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
-#    embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
- #   
- #   with open("adminchannels.json", "r") as f:
- #       guildInfo = json.load(f)
-  #  channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-  #  await channel.send(f'**{ctx.message.author}** sent an announcement in the updates channel')
-
-  #  channel = bot.get_channel(announcechannel)
-  #  await channel.send(embed=embed)
 
 @announce.error
 async def announce_error(ctx, error):
