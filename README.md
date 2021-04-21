@@ -5,37 +5,37 @@ if you would like to help develop Robo Rick you can contribute to the code here 
 The functionality is listed below:
 
 #### Welcome message
-   * Welcomes new members into the server by name with a random welcome message from Rick and Morty     return
+   * Welcomes new members into the server by name with a random welcome message from Rick and Morty     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/welcomemessages.PNG)
 #### Welcome DM
-   * Welcomes new members into the server by sending them a DM     return
+   * Welcomes new members into the server by sending them a DM     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/welcomedm.PNG)
 #### Chat response
-   * Responds to "hello" with "Wubbalubbadubdub"     return
+   * Responds to "hello" with "Wubbalubbadubdub"     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/hello.PNG)
 #### Changes bot status
-   * Robo Ricks status is "Listening to Snake Jazz"     return
+   * Robo Ricks status is "Listening to Snake Jazz"     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/status.PNG)
 #### Ping
-   * Responds to $ping with "pong" and the bot server latency     return
+   * Responds to $ping with "pong" and the bot server latency     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ping.PNG)
 #### UpdateChannel
    * Use $updatechannel to change the channel Robo Rick sends all public updates
    * The channel will be changed to the channel that you send the command in
    * By default this channel will be the top text channel in the server
-   * To change this permission, the user must have the "Manage Channel" permission in the Discord server     return
+   * To change this permission, the user must have the "Manage Channel" permission in the Discord server     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/updatechannel.PNG)
 #### AdminChannel
    * Use $adminchannel to change the channel Robo Rick sends all admin updates
    * The channel will be changed to the channel that you send the command in
    * By default this channel will be the top text channel in the server
-   * To change this permission, the user must have the "Manage Channel" permission in the Discord server     return
+   * To change this permission, the user must have the "Manage Channel" permission in the Discord server     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/adminchannel.PNG)
 #### Join server message
-   * Robo Rick sends a message in the default channel when he joins the server for the first time introducing himself     return
+   * Robo Rick sends a message in the default channel when he joins the server for the first time introducing himself     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/joinmessage.PNG)
 #### Announcements
-   * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel     return
+   * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel     <br />
    * You will need the permission 'Manage Channel' to use this command
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/announce.PNG)
    * Announcements can be sent to a specific channel by adding the channel ID as an optional arguement
@@ -46,65 +46,65 @@ The functionality is listed below:
    * Sends an update in Admin channel and sends the reason in a DM to the member who was kicked
    * Example: `$kick @DroTron#1863 for this really valid reason` 
    * If a reason is specified:
-      * In chat where command was issued     return
+      * In chat where command was issued     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick1.PNG)
-      * In Admin channel     return
+      * In Admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick2.PNG)
-      * In users DM with Robo Rick     return
+      * In users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kick3.png)
    * If no reason is specified:
-      * In chat where command was issued     return
+      * In chat where command was issued     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR1.PNG)
-      * In Admin channel     return
+      * In Admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR2.PNG)
-      * In users DM with Robo Rick     return
+      * In users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/kickNR3.png) 
 #### Ban
    * $ban "__" "__" bans a member for a either a specified or unspecified reason
    * Sends an update in Admin channel and sends the reason in a DM to the member who was banned
    * Example: `$ban @DroTron#1863 for this really valid reason` 
    * If a reason is specified:
-      * In chat where command was issued     return
+      * In chat where command was issued     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban1.PNG)
-      * In Admin channel     return
+      * In Admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban2.PNG)
-      * In users DM with Robo Rick     return
+      * In users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/ban3.png)
    * If no reason is specified:  
-      * In text chat where the command was issued     return
+      * In text chat where the command was issued     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR1.PNG)
-      * In Admin channel     return
+      * In Admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR2.PNG)
-      * In users DM with Robo Rick     return
+      * In users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/banNR3.png)
 #### Unban
    * $unban unbans a user that was previously banned
    * Example: `$unban DroTron#1863` 
    * **Important**: in ban and kick use @DroTron after the command but here use DroTron#1863 with no @
-      * In the admin channel     return
+      * In the admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban1.PNG)
-      * In the users DM with Robo Rick     return
+      * In the users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/unban2.png)
 #### Tempban
    * `$tempban user days reason` bans a user for a certain number of days for a reason and then unbans them
    * Example: `$tempban @Knightmare 2 because he sucks` 
    * Robo Rick sends an announcement in the admin channel and sends the user a DM
-      * In the admin channel     return
+      * In the admin channel     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban1.PNG)
-      * In the users DM with Robo Rick     return
+      * In the users DM with Robo Rick     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban2.png)
-      * In the users DM with Robo Rick after the time has passed     return
+      * In the users DM with Robo Rick after the time has passed     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban3.png)
-      * In the admin channel after the time has passed     return
+      * In the admin channel after the time has passed     <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban4.PNG)
 #### Error handling
-   * Sends an error if a member tries to use a command they do not have access to       return
+   * Sends an error if a member tries to use a command they do not have access to       <br />
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/errorhandling.png)   
 #### 3070/3080 Stock announcement
    * IMPORTANT: If you use the bot I host you will not be able to use this command
    * This command essentially lets you broadcast a preset message to two channels with a simple command
 #### Help
-   * $help is here! Type this to get a less detailed summary of what is above.       return 
+   * $help is here! Type this to get a less detailed summary of what is above.       <br /> 
 ![alt text](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/help.PNG)
 
 # Git Command
