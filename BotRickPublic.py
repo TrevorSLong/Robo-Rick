@@ -113,6 +113,20 @@ async def updatechannel(ctx):
 async def updatechannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the update channel.')
+
+##############Allows for the update channel to be checked (working)##############################################################################
+@bot.command(name="checkupdatechannel",pass_context=True,help="•Checks the public announcements channel.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel updates are sent to")
+@has_permissions(manage_guild=True)
+async def checkupdatechannel(ctx):
+    with open("welcomechannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    await ctx.send(f'The update channel is set to {channel.name}')
+
+@checkupdatechannel.error
+async def checkupdatechannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to check the update channel.')
         
 ##############Allows for the admin channel to be changed (working)##############################################################################
 @bot.command(name="adminchannel",pass_context=True,help="•Changes the admin announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` to use this command\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel admin updates are sent to")
@@ -131,6 +145,20 @@ async def adminchannel(ctx):
 async def adminchannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the admin channel.')
+
+##############Allows for the admin channel to be checked (working)##############################################################################
+@bot.command(name="checkadminchannel",pass_context=True,help="•Checks the admin update channel.\n•You will need to be able to `Manage Server` people to use this command\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel admin updates are sent to")
+@has_permissions(manage_guild=True)
+async def checkadminchannel(ctx):
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    await ctx.send(f'The admin channel is set to {channel.name}')
+
+@checkadminchannel.error
+async def checkadminchannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to check the admin channel.')
             
 ##############Anouncement command (working)###########################################################################################
 @bot.command(name="announce",pass_context=True,help="•Sends announcements (see below)\n•Need permission `Manage Server` to use this commmand\n•$announce hello - sends an announcement in the update channel\n•$announce 123456789 hello - sends an announcement in the channel ID specified\n•Channel ID is an optional arguement\n•Use developer mode and right click a channel to get the ID",brief="•Sends announcements to the channel of your choice")
