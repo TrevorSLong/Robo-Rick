@@ -85,18 +85,7 @@ async def on_guild_join(guild):
     with open("welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guild.text_channels[0].id)
-    embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" I turned myself into a Discord bot, **{guild}**! Boom! Big reveal: I'm a Discord bot. What do you think about that? I turned myself into a Discord bot! W-what are you just staring at me for, bro. I turned myself into a Discord bot, {guild}!")
-
-    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
-    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
-
-    embed.add_field(name="Well since I have to be here....", value="I guess I'll give you the run down on my basic functions",inline=False)
-    embed.add_field(name="Basic commands:", value="• Go to the channel you want updates and messages in and type the command ``$updatechannel``\n• Go to the channel you want admin updates in and type the command ``$adminchannel``\n• ``$help`` will give you the rundown of all of the inventions I have to offer",inline=False)
-    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)",inline=False)
-
-    await channel.send(embed=embed)
-
-    #await channel.send(f'I turned myself into a Discord bot {guild}!\nWell since I have to be here I might as well give you the rundown:\nUse **$help** to see all my commands and get started\nGo to the channel you want me to send updates in and type the command **$updatechannel**\nGo to the channel you want admin updates in and type the command **$adminchannel**\nRobo Rick was developed by two students, if you would like to contribute to its development you can contribute to the code [here](https://github.com/DroTron/Robo-Rick).\nOr you can donate to its development [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52).\nWubalubadubdub!')
+    await channel.send(f'I turned myself into a Discord bot {guild}!\nWell since I have to be here I might as well give you the rundown:\nUse **$help** to see all my commands and get started\nGo to the channel you want me to send updates in and type the command **$updatechannel**\nGo to the channel you want admin updates in and type the command **$adminchannel**\nRobo Rick was developed by two students, if you would like to contribute to its development you can contribute to the code [here](https://github.com/DroTron/Robo-Rick).\nOr you can donate to its development [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52).\nWubalubadubdub!')
 
 ##############Allows for the update channel to be changed (working)##############################################################################
 @bot.command(name="updatechannel",pass_context=True,help="Use /\ to change the public announcements channel to the channel that you used the command in.\n You will need to be able to `Manage Server` people to use this command",brief="Use $updatechannel to change the channel where all announcements are sent. The channel will be set to the channel that you sent the message in (Needs permission `Manage Server` for this command)")
@@ -137,38 +126,33 @@ async def adminchannel_error(ctx, error):
 ##############Anouncement command (working)###########################################################################################
 @bot.command(name="announce",pass_context=True,help="/\ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)",brief="$announce_____ annouces to the servers welcome channel, signs with your user name (Needs permission manage guild for this command)")
 @has_permissions(manage_guild=True)
-#async def announce(ctx, announcechannel = None,*, message,):
-async def announce(ctx,*,message,):
-  #if not announcechannel:   
-    embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
+async def announce(ctx, *, message):
+    if message.split()[0].isdigit():
+        isChannelIDincluded = bot.get_channel(int(message.split()[0])) is not None
+    else:
+        isChannelIDincluded = False
+    if isChannelIDincluded:
+        embed = discord.Embed(title="Announcement",description=message[message.index(' ') + 1:],color=0x9208ea)
+    else:
+        embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
-    
-    with open("welcomechannels.json", "r") as f:
-        guildInfo = json.load(f)
-    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-    
+    if not isChannelIDincluded:
+        with open("welcomechannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    else:
+        channel = bot.get_channel(int(message.split()[0]))
     await channel.send(embed=embed)
-    
+
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     await channel.send(f'**{ctx.message.author}** sent an announcement in the updates channel')
-#  else:
-#    embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
-#    embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
- #   
- #   with open("adminchannels.json", "r") as f:
- #       guildInfo = json.load(f)
-  #  channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-  #  await channel.send(f'**{ctx.message.author}** sent an announcement in the updates channel')
 
-  #  channel = bot.get_channel(announcechannel)
-  #  await channel.send(embed=embed)
-
-@announce.error
-async def announce_error(ctx, error):
-    if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
+    #@announce.error
+#async def announce_error(ctx, error):
+#    if isinstance(error, MissingPermissions):
+#        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
         
 ##############Server count command (working)###########################################################################################
 @bot.command(name="servercount",pass_context=True,help="/\ lists the number of servers Robo Rick is active in",brief="$servercount lists the number of servers Robo Rick is active in")
