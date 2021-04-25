@@ -286,7 +286,7 @@ async def unban_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to unban members.')
 
-##############Temporary Ban command (not working)###########################################################################################               
+##############Temporary Ban command (working)###########################################################################################               
 @bot.command(name="tempban",pass_context=True,help="•Bans a member of the server for a number of days (Needs permission ban members for this command)\n•Sends an update in the admin channel saying what happened\n•$tempban Morty 2 - bans Morty for no reason for 2 days\n•$tempban Summer 3 because shes annoying - bans Summer because shes being annoying for 3 days.\n•Summer and Morty would be sent messages saying that they were banned for either no reason or the reason you specified and it will tell them for how many days\n•The admin channel will also see who banned who for what reason if one was specified and for how long\n•Both the user and admin channel will be notified when someone has been unbanned because the time period expired",brief="•Temporarily bans a member from the server with or without a reason for a certain amount of days")
 @has_permissions(ban_members=True)
 async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
@@ -339,26 +339,40 @@ async def tempban_error(ctx, error):
 @bot.event
 async def on_member_join(member):
 
+###########Sends DM to member who joined############
     await member.create_dm()
-    newUDM1 = f'Hi **{member.name}**, welcome to **{member.guild}**!'
-    newUDM2 = f'Please read the rules and agree to start chatting.'
-    newUDM3 = f'If you need any help from me just type **$help** in any channel'
-    newUDM4 = f'Im Pickle Rickkkkkkk!'
-    await member.dm_channel.send(newUDM1 + '\n' + newUDM2 + '\n' + newUDM3 + '\n' + newUDM4)
+    embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" I turned myself into a Discord bot, **{member.name}**! Boom! Big reveal: I'm a Discord bot. What do you think about that? I turned myself into a Discord bot! W-what are you just staring at me for, bro. I turned myself into a Discord bot, **{member.name}**!")
 
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+
+    embed.add_field(name=f"Every Morty needs a Rick, and every **{member.guild}** needs a Robo Rick: ", value=f"Welcome to **{member.guild}**, I'm Robo Rick, one of the moderation bots here. Please read through the servers specific rules and agree to them to start chatting.")
+    embed.add_field(name="A few notes:", value="• Use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ")
+    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
+
+    await member.dm_channel.send(embed=embed)
+
+###########Sends welcome message in update channel###########
     with open("welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
 
  
     welcomemessages = [
-        f'(WEL MSG) Boom! Big reveal! I turned myself into a pickle! Oh, also {member.name} is here.',
-        f'(WEL MSG) Ill tell you how I feel about school, {member.name}: Its a waste of time. Bunch of people runnin around bumpin into each other, got a guy up front says, 2 + 2, and the people in the back say, 4. Then the bell rings and they give you a carton of milk and a piece of paper that says you can go take a dump or somethin. I mean, its not a place for smart people, {member.name}. I know thats not a popular opinion, but thats my two cents on the issue.',
-        f'(WEL MSG) You gotta do it for Grandpa, {member.name}. You gotta put these seeds inside your butt.',
-        f'(WEL MSG) Nobody exists on purpose. Nobody belongs anywhere. Everybodys gonna die. Come watch TV {member.name}.',
-        f'(WEL MSG) SHOW ME WHAT YOU GOT {member.name}!',
-        f'(WEL MSG) {member.name}, I need your help on an adventure. Eh, need is a strong word. We need door stops, but a brick would work too.',
-        f'(WEL MSG) What about the reality where Hitler cured cancer, {member.name}? The answer is: Dont think about it.',
+        f'➡️ Boom! Big reveal! I turned myself into a pickle, **{member.name}**! I’m Pickle Rick!',
+        f'➡️ Ill tell you how I feel about school, **{member.name}**: Its a waste of time. Bunch of people runnin around bumpin into each other, got a guy up front says, 2 + 2, and the people in the back say, 4. Then the bell rings and they give you a carton of milk and a piece of paper that says you can go take a dump or somethin. I mean, its not a place for smart people, **{member.name}**. I know thats not a popular opinion, but thats my two cents on the issue.',
+        f'➡️ You gotta do it for Grandpa, **{member.name}**. You gotta put these seeds inside your butt.',
+        f'➡️ Nobody exists on purpose. Nobody belongs anywhere. Everybodys gonna die. Come watch TV **{member.name}**.',
+        f'➡️ SHOW ME WHAT YOU GOT **{member.name}**!',
+        f'➡️ **{member.name}**, I need your help on an adventure. Eh, need is a strong word. We need door stops, but a brick would work too.',
+        f'➡️ What about the reality where Hitler cured cancer, **{member.name}**? The answer is: Dont think about it.',
+        f'➡️ Hey, **{member.name}**, does your planet have wiper fluid yet or you gonna freak out and start worshipping us?',
+        f'➡️ Listen, **{member.name}**, I hate to break it to you, but what people call “love” is just a chemical reaction that compels animals to breed. It hits hard, **{member.name}**, then it slowly fades, leaving you stranded in a failing marriage. I did it. Your parents are gonna do it. Break the cycle, **{member.name}**. Rise above. Focus on science.',
+        f'➡️ You’re missing the point, **{member.name}**. Why would he drive a smaller toaster with wheels? I mean, does your car look like a smaller version of your house? No.',
+        f'➡️ Don’t get drawn into the culture, **{member.name}**. Stealing stuff is about the stuff, not the stealing.',
+        f'➡️ Yeah, sure, I mean, if you spend all day shuffling words around, you can make anything sound bad, **{member.name}**.',
+        f'➡️ Get Out Of Here, **{member.name}**! You Ruined The Season 4 Premiere!',
+        f"➡️ Now if you'll excuse me, I've got a quick solo adventure to go on and this one will not be directed by **{member.name}**.",
         ]
     randomwelcome = random.choice(welcomemessages)
     await channel.send(randomwelcome)
