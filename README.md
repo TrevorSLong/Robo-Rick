@@ -92,6 +92,7 @@ The functionality is listed below:
 #### Tempban
    * `$tempban user days reason` bans a user for a certain number of days for a reason and then unbans them
    * Example: `$tempban @Knightmare 2 because he sucks` 
+   * **Important**: This command is not perfect, if Robo Rick is restarted or updated while a temporary ban is in place he will forget the ban and will not execute the unban. This is a known issue and is in the pipeline to be fixed.
    * Robo Rick sends an announcement in the admin channel and sends the user a DM
       * In the admin channel     <br />
 ![TempbanImage1](https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/tempban1.PNG)
