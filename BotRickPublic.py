@@ -20,6 +20,7 @@ import asyncio
 import logging
 import random
 import json
+import dbl
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Member
@@ -40,6 +41,9 @@ print("Using 3080 channel ID " + C3080_ID)
 C3070_ID = os.getenv('3070_CHANNEL') #Grabs admin channel ID from .env file
 print("Using 3070 channel ID " + C3070_ID)
 
+dbl_token = os.getenv('dbl_token') #Grabs admin channel ID from .env file
+print("Using DBL Token " + dbl_token)
+
 
 intents = discord.Intents.all() #Declare intents
 intents.members = True
@@ -47,6 +51,21 @@ intents.typing = True
 intents.presences = True
 bot = commands.Bot(command_prefix="$",intents= intents) #Declares command prefix
 
+##############Posts active server count to top.gg###########################################################################################
+class TopGG(commands.Cog):
+    """Handles interactions with the top.gg API"""
+
+    def __init__(self, bot):
+        self.bot = bot
+        self.token = dbl_token # set this to your DBL token
+        self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True) # Autopost will post your guild count every 30 minutes
+
+    async def on_guild_post():
+        print("Server count posted successfully")
+
+def setup(bot):
+    bot.add_cog(TopGG(bot))
+    
 ##############Changes bot status (working)###########################################################################################
 @bot.event
 async def on_ready():
