@@ -346,9 +346,9 @@ async def on_member_join(member):
     embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
     embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
 
-    embed.add_field(name=f"Every Morty needs a Rick, and every **{member.guild}** needs a Robo Rick: ", value=f"Welcome to **{member.guild}**, I'm Robo Rick, one of the moderation bots here. Please read through the servers specific rules and agree to them to start chatting.")
-    embed.add_field(name="A few notes:", value="• Use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ")
-    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
+    embed.add_field(name=f"Every Morty needs a Rick, and every **{member.guild}** needs a Robo Rick: ", value=f"Welcome to **{member.guild}**, I'm Robo Rick, one of the moderation bots here. Please read through the servers specific rules and agree to them to start chatting.",inline=False)
+    embed.add_field(name="A few notes:", value="• Use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ",inline=False)
+    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)",inline=False)
 
     await member.dm_channel.send(embed=embed)
 
@@ -399,10 +399,10 @@ async def on_member_remove(member):
     
     await channel.send(f'Bot Rick successfully sent leave message about **{member.name}** leaving **{member.guild}**.')
                        
-##############Responds to hello (working)###########################################################################################
+##############Responds to rick (working)###########################################################################################
 @bot.event
 async def on_message(message):
-	if message.content == "hello":
+	if message.content == "rick":
 		await message.channel.send("Wubbalubbadubdub")
 	await bot.process_commands(message) # INCLUDES THE COMMANDS FOR THE BOT. WITHOUT THIS LINE, YOU CANNOT TRIGGER YOUR COMMANDS.
 
