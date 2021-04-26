@@ -1,3 +1,4 @@
+#!/usr/bin/python3.4
 #Robo Rick
 #-------------------------------------------------
 #Discord bot for welcome messages, leave messages, kicking, banning, announcements, and more
@@ -22,7 +23,7 @@ import random
 import json
 import dbl
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import Member
 from discord import User
 from discord.ext.commands import has_permissions, MissingPermissions
@@ -53,18 +54,41 @@ bot = commands.Bot(command_prefix="$",intents= intents) #Declares command prefix
 
 ##############Posts active server count to top.gg###########################################################################################
 class TopGG(commands.Cog):
-    """Handles interactions with the top.gg API"""
+    """
+    This example uses tasks provided by discord.ext to create a task that posts guild count to top.gg every 30 minutes.
+    """
 
     def __init__(self, bot):
         self.bot = bot
-        self.token = dbl_token # set this to your DBL token
-        self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True) # Autopost will post your guild count every 30 minutes
+        self.token = 'dbl_token'  # set this to your DBL token
+        self.dblpy = dbl.DBLClient(self.bot, self.token)
+        self.update_stats.start()
 
-    async def on_guild_post():
-        print("Server count posted successfully")
+    def cog_unload(self):
+        self.update_stats.cancel()
+
+    @tasks.loop(seconds=10)
+    async def update_stats(self):
+        """This function runs every 30 minutes to automatically update your server count."""
+        await self.bot.wait_until_ready()
+        try:
+            server_count = len(self.bot.guilds)
+            await self.dblpy.post_guild_count(server_count)
+            logger.warning('Posted server count ({})'.format(server_count))
+        except Exception as e:
+            logger.warning('Failed to post server count\n{}: {}'.format(type(e).__name__, e))
+
 
 def setup(bot):
     bot.add_cog(TopGG(bot))
+
+
+global logger
+logger = logging.getLogger('bot')
+
+setup(bot)
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+
     
 ##############Changes bot status (working)###########################################################################################
 @bot.event
