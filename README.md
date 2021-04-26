@@ -3,6 +3,7 @@ This repository contains the code that runs the Discord bot "Robo Rick". Robo ri
 This page is designed to be a help page for the bot itself and also used for learning how to program your own bot. DO NOT COPY THIS CODE AND DO NOT USE IT FOR PROFIT! Robo Rick was developed by two college students,
 if you would like to help develop Robo Rick you can contribute to the code here or donate to its development [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)
 The functionality is listed below:
+[![Discord Bots](https://top.gg/api/widget/827681932660965377.svg)](https://top.gg/bot/827681932660965377)
 
 #### Welcome message
    * Welcomes new members into the server by name with a random welcome message from Rick and Morty     <br />
