@@ -67,7 +67,7 @@ class TopGG(commands.Cog):
     def cog_unload(self):
         self.update_stats.cancel()
 
-    @tasks.loop(seconds=10)
+    @tasks.loop(minutes=300)
     async def update_stats(self):
         """This function runs every 30 minutes to automatically update your server count."""
         await self.bot.wait_until_ready()
