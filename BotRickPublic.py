@@ -1,8 +1,8 @@
-#Bot Rick
+#Robo Rick
 #-------------------------------------------------
-#Discord bot for welcome messages, leave messages, and announcements
+#Discord bot for welcome messages, leave messages, kicking, banning, announcements, and more
 #Created by DroTron (Trevor L)
-#https://github.com/DroTron/bot-rick
+#https://github.com/DroTron/Robo-Rick
 #-------------------------------------------------
 #This code may be used to help you build your own bot or to run on your own server
 #Do not use my code for profit
@@ -52,7 +52,7 @@ bot = commands.Bot(command_prefix="$",intents= intents) #Declares command prefix
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Snake Jazz"))
     channel = bot.get_channel(int(BOT_UPDATE_CHANNEL))
-    await channel.send(f'Bot Rick has successfully reconnected to Froopyland!')
+    await channel.send(f'Robo Rick has restarted and has successfully reconnected to Discord!')
     
 #############Adds server to json database on bot server join (working)##############################################################################
 @bot.event
