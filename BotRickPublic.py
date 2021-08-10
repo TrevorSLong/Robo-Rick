@@ -28,7 +28,10 @@ from discord import Member
 from discord import User
 from discord.ext.commands import has_permissions, MissingPermissions
 from discord.ext.commands import Bot, guild_only
-from discord_slash import SlashCommand #Importing slash command library
+
+from discord_slash import SlashCommand, SlashContext #Importing slash command library
+from discord_slash.utils.manage_commands import create_option, create_choice
+from discord_slash.model import SlashCommandOptionType
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN') #Grabs bot token from .env file
@@ -46,51 +49,9 @@ print("Using 3070 channel ID " + C3070_ID)
 dbl_token = os.getenv('dbl_token') #Grabs admin channel ID from .env file
 print("Using DBL Token " + dbl_token)
 
-
-intents = discord.Intents.all() #Declare intents
-intents.members = True
-intents.typing = True
-intents.presences = True
+bot = commands.Bot(command_prefix='$', intents=discord.Intents.all()) #declare intents for bot
 slash = SlashCommand(bot, sync_commands=True) #Declares command prefix
 
-##############Posts active server count to top.gg###########################################################################################
-class TopGG(commands.Cog):
-    """
-    This example uses tasks provided by discord.ext to create a task that posts guild count to top.gg every 30 minutes.
-    """
-
-    def __init__(self, bot):
-        self.bot = bot
-        self.token = dbl_token  # set this to your DBL token
-        self.dblpy = dbl.DBLClient(self.bot, self.token)
-        self.update_stats.start()
-
-    def cog_unload(self):
-        self.update_stats.cancel()
-
-    @tasks.loop(minutes=30)
-    async def update_stats(self):
-        """This function runs every 30 minutes to automatically update your server count."""
-        await self.bot.wait_until_ready()
-        try:
-            server_count = len(self.bot.guilds)
-            await self.dblpy.post_guild_count(server_count)
-            logger.warning('Posted server count ({})'.format(server_count))
-        except Exception as e:
-            logger.warning('Failed to post server count\n{}: {}'.format(type(e).__name__, e))
-
-
-def setup(bot):
-    bot.add_cog(TopGG(bot))
-
-
-global logger
-logger = logging.getLogger('bot')
-
-setup(bot)
-logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-
-    
 ##############Changes bot status (working)###########################################################################################
 @bot.event
 async def on_ready():
@@ -142,11 +103,9 @@ async def on_guild_join(guild):
 
 ##############Allows for the update channel to be changed (working)##############################################################################
 @slash.slash(name="updatechannel",
-            pass_context=True,
-            description="•Changes the public announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",
+            description="Changes the public announcements channel to the channel that you used the command in.",
             )
-@has_permissions(manage_guild=True)
-async def updatechannel(ctx):
+async def updatechannel(ctx:SlashContext):
     with open("welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
 
@@ -163,11 +122,9 @@ async def updatechannel_error(ctx, error):
 
 ##############Allows for the update channel to be checked (working)##############################################################################
 @slash.slash(name="checkupdatechannel",
-            pass_context=True,
-            description="•Checks the public announcements channel.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",
+            description="Checks the public announcements channel.",
             )
-@has_permissions(manage_guild=True)
-async def checkupdatechannel(ctx):
+async def checkupdatechannel(ctx:SlashContext):
     with open("welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
@@ -179,11 +136,10 @@ async def checkupdatechannel_error(ctx, error):
         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to check the update channel.')
         
 ##############Allows for the admin channel to be changed (working)##############################################################################
-@slash.slash(name="adminchannel",pass_context=True,
-            description="•Changes the admin announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` to use this command\n•By default this channel is set to the top text channel in your server",
+@slash.slash(name="adminchannel",
+            description="Changes the admin announcements channel to the channel that you used the command in.",
             )
-@has_permissions(manage_guild=True)
-async def adminchannel(ctx):
+async def adminchannel(ctx:SlashContext):
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
 
@@ -199,11 +155,10 @@ async def adminchannel_error(ctx, error):
         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the admin channel.')
 
 ##############Allows for the admin channel to be checked (working)##############################################################################
-@slash.slash(name="checkadminchannel",pass_context=True,
-            description="•Checks the admin update channel.\n•You will need to be able to `Manage Server` people to use this command\n•By default this channel is set to the top text channel in your server",
+@slash.slash(name="checkadminchannel",
+            description="Checks the admin update channel.",
             )
-@has_permissions(manage_guild=True)
-async def checkadminchannel(ctx):
+async def checkadminchannel(ctx:SlashContext):
     with open("adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
@@ -216,64 +171,50 @@ async def checkadminchannel_error(ctx, error):
             
 ##############Anouncement command (working)###########################################################################################
 @slash.slash(name="announce",
-            pass_context=True,
-            description="•Sends announcements (see below)\n•Need permission `Manage Server` to use this commmand\n•$announce hello - sends an announcement in the update channel\n•$announce 123456789 hello - sends an announcement in the channel ID specified\n•Channel ID is an optional arguement\n•Use developer mode and right click a channel to get the ID",
+            description="Sends an announcement to either the updates channel or to any channel ID.",
             options=[
                 create_option(
-                    name="Channel ID"
-                    description="Optional addition of the channel the announcement will be sent to, otherwise it will be sent to the updates channel"
-                    option_type=7
+                    name="channelid",
+                    description="Optional addition of the channel the announcement will be sent to.",
+                    option_type=7,
+                    required=False
+                ),
+                create_option(
+                    name="message",
+                    description="Type the message you want to send in the announcement",
+                    option_type=3,
                     required=False
                 )
-                create_option(
-                    name="Message"
-                    description="Type the message you want to send in the announcement"
-                    option_type=3
-                    required=True
-                )
             ])
-@has_permissions(manage_guild=True)
-async def announce(ctx, *, message):
-    if message.split()[0].isdigit():
-        isChannelIDincluded = bot.get_channel(int(message.split()[0])) is not None
-    else:
-        isChannelIDincluded = False
-    if isChannelIDincluded:
-        embed = discord.Embed(title="Announcement",description=message[message.index(' ') + 1:],color=0x9208ea)
-    else:
+async def announce(ctx:SlashContext, channelid:str, message:str):
+    if channelid:
         embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
-    embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
-    if not isChannelIDincluded:
+        embed.set_footer(text=f'footer')
+        channel = channelid
+        await channel.send(embed=embed)
+    if not channelid:
         with open("welcomechannels.json", "r") as f:
             guildInfo = json.load(f)
         channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-    else:
-        channel = bot.get_channel(int(message.split()[0]))
-    await channel.send(embed=embed)
-    channelname = channel.name
-    with open("adminchannels.json", "r") as f:
-        guildInfo = json.load(f)
-    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
-    await channel.send(f'**{ctx.message.author}** sent an announcement in the {channelname} channel')
+        await channel.send(embed=embed)
 
-@announce.error
-async def announce_error(ctx, error):
-    if isinstance(error, MissingPermissions):
-         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
+#@announce.error
+#async def announce_error(ctx, error):
+#    if isinstance(error, MissingPermissions):
+#         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
 
 ##############Server count command (working)###########################################################################################
 @slash.slash(name="servercount",
-            pass_context=True,help="•Lists the number of servers Robo Rick is active in",
-            brief="•Lists the number of servers Robo Rick is active in")
-async def servercount(ctx):
+            description="Lists the number of servers Robo Rick is active in",
+            )
+async def servercount(ctx:SlashContext):
     await ctx.channel.send("I'm currently active in " + str(len(bot.guilds)) + " servers!")
 
 ##############Kick command (working)###########################################################################################
 @slash.slash(name="kick",
-            pass_context=True,help="•Kicks a member of the server (Needs permission kick members for this command)\n•Sends an update in the admin channel saying what happened\n•$kick Morty - kicks Morty for no reason\n•$kick Summer because shes annoying - kicks Summer because shes being annoying.\n•Summer and Morty would be sent messages saying that they were kicked for either no reason or the reason you specified\n•The admin channel will also see who kicked who for what reason if one was specified",
-            brief="•Kicks a member from the server with or without a reason")
-@has_permissions(kick_members=True)
-async def kick(ctx, user: discord.Member, *, reason = None):
+            description="Kicks a member of the server.",
+            )
+async def kick(ctx:SlashContext, user: discord.Member, *, reason = None):
   if not reason:
     await user.kick()
     
@@ -303,11 +244,10 @@ async def kick_error(ctx, error):
 
         
 ##############Ban command (working)###########################################################################################
-@slash.slash(name="ban",pass_context=True,
-            help="•Bans a member of the server (Needs permission ban members for this command)\n•Sends an update in the admin channel saying what happened\n•$ban Morty - bans Morty for no reason\n•$ban Summer because shes annoying - bans Summer because shes being annoying.\n•Summer and Morty would be sent messages saying that they were banned for either no reason or the reason you specified\n•The admin channel will also see who banned who for what reason if one was specified",
-            brief="•Bans a member from the server with or without a reason")
-@has_permissions(ban_members=True)
-async def ban(ctx, user: discord.Member, *, reason = None):
+@slash.slash(name="ban",
+            description="Bans a member of the server.",
+            )
+async def ban(ctx:SlashContext, user: discord.Member, *, reason = None):
   if not reason:
     await user.ban()
     
@@ -336,12 +276,11 @@ async def ban_error(ctx, error):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
 
 ##############Unban command (working)###########################################################################################
-@slash.slash(name="unban",pass_context=True,
-            help="•Unbans a member of the server (Needs permission ban members for this command). Syntax: '$unban User#1234'. Do not use the @name like you can with ban and kick",
-            brief="•Unbans someone from the server")
-@has_permissions(ban_members=True)
+@slash.slash(name="unban",
+            description="Unbans a member of the server.",
+            )
 @guild_only()
-async def unban(ctx, *, member,):
+async def unban(ctx:SlashContext, *, member,):
   banned_users = await ctx.guild.bans()
   member_name, member_discriminator = member.split('#')
   for ban_entry in banned_users:
@@ -365,11 +304,10 @@ async def unban_error(ctx, error):
         await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to unban members.')
 
 ##############Temporary Ban command (working)###########################################################################################               
-@slash.slash(name="tempban",pass_context=True,
-            help="•Bans a member of the server for a number of days (Needs permission ban members for this command)\n•Sends an update in the admin channel saying what happened\n•$tempban Morty 2 - bans Morty for no reason for 2 days\n•$tempban Summer 3 because shes annoying - bans Summer because shes being annoying for 3 days.\n•Summer and Morty would be sent messages saying that they were banned for either no reason or the reason you specified and it will tell them for how many days\n•The admin channel will also see who banned who for what reason if one was specified and for how long\n•Both the user and admin channel will be notified when someone has been unbanned because the time period expired",
-            brief="•Temporarily bans a member from the server with or without a reason for a certain amount of days")
-@has_permissions(ban_members=True)
-async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
+@slash.slash(name="tempban",
+            description="Bans a member of the server for a number of days.",
+            )
+async def tempban(ctx:SlashContext, user: discord.Member, duration: int, *, reason = None):
     if not reason:
         await user.ban()
     
@@ -487,18 +425,16 @@ async def on_message(message):
 
 ##############Reponds to $ping (working)########################################################################################################
 @slash.slash(
-	help="•Responds with Pong and the bots server latency", 	# ADDS THIS VALUE TO THE $HELP PING MESSAGE.
-	brief="•Responds with Pong and the bots server latency" # ADDS THIS VALUE TO THE $HELP MESSAGE.
+	description="Responds with Pong and the bots server latency", 	# ADDS THIS VALUE TO THE $HELP PING MESSAGE.
 )
-async def ping(ctx):
-	await ctx.channel.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+async def ping(ctx:SlashContext):
+	await ctx.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
 
 ##############Reponds to $donate (working)########################################################################################################
 @slash.slash(
-	help="•Brings up information on how to donate towards Robo Ricks development", 	
-	brief="•Brings up information on how to donate towards Robo Ricks development" 
+	description="Brings up information on how to donate towards Robo Ricks development", 	 
 )
-async def donate(ctx):
+async def donate(ctx:SlashContext):
     embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" Hello **{ctx.message.author}**, I'm glad someone finally appreciates my genius! Thank you for your interest in donating! Your donation will help with the cost of hosting and developing me for servers like **{ctx.message.guild}**!")
 
     embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/DonateQRCode.png")
@@ -506,36 +442,14 @@ async def donate(ctx):
 
     embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
 
-    await ctx.channel.send(embed=embed)
-
-
-###############3080/3070 stock announcement (manually announce in multiple channels that something happened with one command)######################################################################
-@slash.slash(name="bbyinstock",
-            pass_context=True,help="•BBYInStock is specific to the creators server, this will not work on your server. $bbyinstock sends an announcement in 3070/3080 channels that best buy has stock of 3070/3080, to be triggered manually by Admin or Mod",
-            brief="•Sends an announcement in 3070/3080 channels that Best Buy has stock of 3070/3080, to be triggered manually by Admin or Mod")
-@has_permissions(kick_members=True)
-async def bbyinstock(ctx):
-    if ctx.message.guild == 'Froopyland':
-        channel = bot.get_channel(int(C3080_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
-        channel = bot.get_channel(int(C3070_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
-    else:
-        await ctx.channel.send(f'Sorry **{ctx.message.author}**, this command is not ready for your server')
-        
-@bbyinstock.error
-async def bbyinstock_error(ctx, error):
-    if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce RTX3000 stock.')
-
+    await ctx.send(embed=embed)
 
 ##############Responds to $help (working)########################################################################################################
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands'
 )
 @slash.slash(
-	help="Looks like you need some help.", # ADDS THIS VALUE TO THE $HELP PRINT MESSAGE.
-	brief="Prints the list of values back to the channel." # ADDS THIS VALUE TO THE $HELP MESSAGE.
+	description="Looks like you need some help.", # ADDS THIS VALUE TO THE $HELP PRINT MESSAGE. 
 )
 async def print(ctx, *args):
 	response = ""
