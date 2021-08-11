@@ -1,10 +1,14 @@
-# Robo-Rick
-This repository contains the code that runs the Discord bot "Robo Rick". Robo rick can be added to your server with [this link](https://discord.com/oauth2/authorize?client_id=827681932660965377&scope=bot)
+# Robo-Rick (Now with slash commands!)
+This repository contains the code that runs the Discord bot "Robo Rick". Robo rick can be added to your server with [this link](https://discord.com/api/oauth2/authorize?client_id=827681932660965377&permissions=8&scope=bot%20applications.commands).
 This page is designed to be a help page for the bot itself and also used for learning how to program your own bot. DO NOT COPY THIS CODE AND DO NOT USE IT FOR PROFIT! Robo Rick was developed by two college students,
 if you would like to help develop Robo Rick you can contribute to the code here or donate to its development [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)
 The functionality is listed below: <br />
 [![Discord Bots](https://top.gg/api/widget/827681932660965377.svg)](https://top.gg/bot/827681932660965377) <br />
 
+## Important note:
+   * Discord introduced slash commands *March 24, 2021*. On **August 11, 2021** Robo Rick was updated to support both slash commands **and** the traditional `$` commands. If you added Robo Rick to your server before 8/11/21 you will not have access to the slash commands. **To get slash commands:** kick Robo Rick from your server and re-add him. After you re-add him you may need to reassign your admin and updates channel.
+
+# Bot events:
 #### Welcome message
    * Welcomes new members into the server by name with a random welcome message from Rick and Morty     <br />
 ![WelcomeMessageImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/welcomemessages.PNG)
@@ -17,6 +21,55 @@ The functionality is listed below: <br />
 #### Changes bot status
    * Robo Ricks status is "Listening to Snake Jazz"     <br />
 ![BotStatusImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/status.PNG)
+#### Join server message
+   * Robo Rick sends a message in the default channel when he joins the server for the first time introducing himself     <br />
+![JoinServerImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/joinmessage.PNG)
+
+# Slash Commands:
+   * Slash commands were introduced to Discord 3/24/21, they much more user-friendly because they suggest and auto-fill based on whether the expected value is a string, user, channel, etc. As of 8/11/21 Robo Rick supports slash commands although you may need to reinvite him to the server. Below is a list of all of the slash commands:
+#### Ping
+   * Responds to `/ping` with "Pong" and the server latency
+![SlashPingImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashping1.PNG)
+![SlashPingImage2](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashping2.PNG)
+#### UpdateChannel
+   * Changed the channel Robo Rick sends updates to (Welcome messages, leave messages, etc.)
+   * Hitting tab will autofill the command and bring up a list of channels on your server. If it doesn't see the channel in the UI just type it out.
+   * Note: command and result are using a different channel
+![UpdateImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashupdate1.PNG)
+![UpdateImage2](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashupdate2.PNG)
+#### AdminChannel
+   * Changed the channel Robo Rick sends admin updates to (Kicking, banning, temp banning, etc.)
+   * Hitting tab will autofill the command and bring up a list of channels on your server. If it doesn't see the channel in the UI just type it out.
+   * Note: command and result are using a different channel
+![AdminImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashadmin1.PNG)
+![AdminImage2](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashadmin2.PNG)
+#### Announcements
+   * Allows a user with `Manage Server` ability to send an announcement to any channel in the server. Both a message and channel to send to are required.
+   * After typing the command hit TAB to autofill the message parameter, then type your message and hit tab. It will then open a list of channels to send the announcement to.
+![AnnounceImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashannounce1.PNG)
+![AnnounceImage2](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashannounce2.PNG)
+#### Kick
+   * `/kick member:` **@User** `reason:` **REQUIRED REASON, THE USER WILL SEE THIS REASON**
+   * Kicks the user from the server, informs them of the reason. Also informs the admin channel that the person was kicked and the reason.
+![KickImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashkick1.PNG)
+![KickImage2](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashkick2.PNG)
+#### Ban
+   * `/ban member:` **@User** `reason:` **REQUIRED REASON, THE USER WILL SEE THIS REASON**
+   * Bans the user from the server, informs them of the reason. Also informs the admin channel that the person was kicked and the reason.
+![BanImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashban1.PNG)
+#### TempBan
+   * `/tempban member:` **@User** `reason:` **REQUIRED REASON, THE USER WILL SEE THIS REASON** duration: **How long in days**
+   * Temporarily bans the user from the server, informs them of the reason. Also informs the admin channel that the person was kicked and the reason.
+![TempBanImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashtempban1.PNG)
+#### UnBan
+   * **Careful with the syntax here**
+   * `/unban member1234: Username#1234`
+   * This command will not autofill the user, you need to type the username and number
+![UnBanImage1](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/slashunban1.PNG)
+
+# Traditional ($) Commands:
+   * Originally Robo Rick used dollar sign commands, before slash commands were introduced. Currently Robo Rick supports both slash and $ commands. Servers who added Robo Rick before slash commands will still be able to use dollar sign commands normally, while those who added after can use either.
+
 #### Ping
    * Responds to $ping with "pong" and the bot server latency     <br />
 ![PingImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/ping.PNG)
@@ -36,9 +89,6 @@ The functionality is listed below: <br />
 ![AdminChannelImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/adminchannel.PNG)
    * $checkadminchannel can be used to check which channel in your server is set to the admin update channel     <br />
 ![CheckAdminChannelImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/checkadminchannel.PNG)
-#### Join server message
-   * Robo Rick sends a message in the default channel when he joins the server for the first time introducing himself     <br />
-![JoinServerImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/joinmessage.PNG)
 #### Announcements
    * $announce "_____" will send an announcement in the updates channel in your server. To change the channel it is sent in use $updatechannel     <br />
    * You will need the permission 'Manage Channel' to use this command
@@ -106,9 +156,6 @@ The functionality is listed below: <br />
 #### Error handling
    * Sends an error if a member tries to use a command they do not have access to       <br />
 ![ErrorHandlingImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/errorhandling.png)   
-#### 3070/3080 Stock announcement
-   * IMPORTANT: If you use the bot I host you will not be able to use this command
-   * This command essentially lets you broadcast a preset message to two channels with a simple command
 #### Help
    * $help is here! Type this to get a less detailed summary of what is above.       <br /> 
 ![HelpImage](https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/help.PNG)
