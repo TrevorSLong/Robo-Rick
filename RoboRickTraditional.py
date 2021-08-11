@@ -130,8 +130,8 @@ async def on_guild_join(guild):
     channel = bot.get_channel(guild.text_channels[0].id)
     embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" I turned myself into a Discord bot, **{guild}**! Boom! Big reveal: I'm a Discord bot. What do you think about that? I turned myself into a Discord bot! W-what are you just staring at me for, bro. I turned myself into a Discord bot, **{guild}**!")
 
-    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
-    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
 
     embed.add_field(name="Well since I have to be here....", value="I guess I'll give you the run down on my basic functions",inline=False)
     embed.add_field(name="Basic commands:", value="• Go to the channel you want updates and messages in and type the command ``$updatechannel``\n• Go to the channel you want admin updates in and type the command ``$adminchannel``\n• ``$help`` will give you the rundown of all of the inventions I have to offer",inline=False)
@@ -386,8 +386,8 @@ async def on_member_join(member):
     await member.create_dm()
     embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" I turned myself into a Discord bot, **{member.name}**! Boom! Big reveal: I'm a Discord bot. What do you think about that? I turned myself into a Discord bot! W-what are you just staring at me for, bro. I turned myself into a Discord bot, **{member.name}**!")
 
-    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
-    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
 
     embed.add_field(name=f"Every Morty needs a Rick, and every **{member.guild}** needs a Robo Rick: ", value=f"Welcome to **{member.guild}**, I'm Robo Rick, one of the moderation bots here. Please read through the servers specific rules and agree to them to start chatting.",inline=False)
     embed.add_field(name="A few notes:", value="• Use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ",inline=False)
@@ -465,8 +465,8 @@ async def ping(ctx):
 async def donate(ctx):
     embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" Hello **{ctx.message.author}**, I'm glad someone finally appreciates my genius! Thank you for your interest in donating! Your donation will help with the cost of hosting and developing me for servers like **{ctx.message.guild}**!")
 
-    embed.set_thumbnail(url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/DonateQRCode.png")
-    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/DroTron/Robo-Rick/main/Screenshots/rick.jpg")
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/DonateQRCode.png")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
 
     embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
 

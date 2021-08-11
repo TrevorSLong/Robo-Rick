@@ -81,7 +81,6 @@ logger = logging.getLogger('bot')
 setup(bot)
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
-    
 #############Adds server to json database on bot server join (working)##############################################################################
 @bot.event
 async def on_guild_join(guild):
@@ -119,7 +118,7 @@ async def on_guild_join(guild):
     embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
 
     embed.add_field(name="Well since I have to be here....", value="I guess I'll give you the run down on my basic functions",inline=False)
-    embed.add_field(name="Basic commands:", value="• Go to the channel you want updates and messages in and type the command ``$updatechannel``\n• Go to the channel you want admin updates in and type the command ``$adminchannel``\n• ``$help`` will give you the rundown of all of the inventions I have to offer",inline=False)
+    embed.add_field(name="Basic commands:", value="• Type the command ``/updatechannel`` and follow the onscreen help to set the update/welcome channel. \n• Or go to the channel you want updates and messages in and type the command ``$updatechannel``\n• Type the command ``/adminchannel`` and follow the onscreen help to set the admin update channel. \n• Or go to the channel you want admin updates in and type the command ``$adminchannel``\n• Typing / will show you all of the command other bots and I offer. \n• ``$help`` will give you the rundown of all of the inventions I have to offer (legacy non-slash commands)",inline=False)
     embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/TrevorSLong/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)",inline=False)
 
     await channel.send(embed=embed)
@@ -131,14 +130,18 @@ async def on_ready():
     channel = bot.get_channel(int(BOT_UPDATE_CHANNEL))
     await channel.send(f'Robo Rick has restarted and has successfully reconnected to Discord!')
 
-##############Reponds to $ping (working)########################################################################################################
+###########################################################################################################################
+#############################################Slash Commands (/)############################################################
+##############)#############################################################################################################
+
+##############Reponds to /ping (working)########################################################################################################
 @slash.slash(
 	description="Responds with Pong and the bots server latency", 	# ADDS THIS VALUE TO THE $HELP PING MESSAGE.
 )
 async def ping(ctx:SlashContext):
 	await ctx.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
 
-##############Reponds to $donate (working)########################################################################################################
+##############Reponds to /donate (working)########################################################################################################
 @slash.slash(
 	description="Brings up information on how to donate towards Robo Ricks development", 	 
 )
@@ -215,7 +218,7 @@ async def kick(ctx:SlashContext, member, reason):
     channel = bot.get_channel(guildInfo[str(ctx.guild_id)])
 
     await member.send(f'Hello **{member}**, you have been kicked from **{ctx.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.guild}** for questions or concerns')
-    await ctx.send(f"Success! {member} has been kicked from {ctx.guild}!")
+    await ctx.send(f"Success! **{member}** has been kicked from **{ctx.guild}**!")
     await channel.send(f"**{member}** has been kicked for **{reason}** by **{ctx.author}**.")
     await member.kick(reason=reason)
 
@@ -252,7 +255,7 @@ async def ban(ctx:SlashContext, member, reason):
     await member.send(f'Hello **{member}**, you have been banned from **{ctx.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.guild}** for questions or concerns')
     
     await channel.send(f"**{member}** has been banned for **{reason}** by **{ctx.author}**.")
-    await ctx.send(f"Success! Banned {member} for {reason}!")
+    await ctx.send(f"Success! Banned **{member}** for **{reason}**!")
     await member.ban(reason=reason)
 
 @ban.error
@@ -289,7 +292,7 @@ async def unban(ctx:SlashContext, member1234):
     channel = bot.get_channel(guildInfo[str(ctx.guild_id)])
     
     await channel.send(f"**{user}** has been unbanned by **{ctx.author}**.")
-    await ctx.send(f"{user} successfully unbanned!")
+    await ctx.send(f"**{user}** successfully unbanned!")
     await user.send(f'Hello **{user}**, you have been unbanned from **{ctx.guild}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.guild}** for questions or concerns')
 
 @unban.error
@@ -321,6 +324,7 @@ async def unban_error(ctx, error):
         )
     ]
             )
+@has_permissions(ban_members=True)
 async def tempban(ctx:SlashContext, member, reason, duration):   
     user = member
     with open("adminchannels.json", "r") as f:
@@ -331,7 +335,7 @@ async def tempban(ctx:SlashContext, member, reason, duration):
     
     await channel.send(f"**{user}** has been banned for **{reason}** by **{ctx.author}** for **{duration}** days.")
     await user.ban(reason=reason)
-    await ctx.send(f"Success! You have banned {member} for {duration} days!")
+    await ctx.send(f"Success! You have banned **{member}** for **{duration}** days!")
     #Unban process below
     await asyncio.sleep(duration*60*60*24)
     await ctx.guild.unban(user)
@@ -444,7 +448,7 @@ async def on_member_join(member):
     embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
 
     embed.add_field(name=f"Every Morty needs a Rick, and every **{member.guild}** needs a Robo Rick: ", value=f"Welcome to **{member.guild}**, I'm Robo Rick, one of the moderation bots here. Please read through the servers specific rules and agree to them to start chatting.",inline=False)
-    embed.add_field(name="A few notes:", value="• Use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ",inline=False)
+    embed.add_field(name="A few notes:", value="• Type / or use ``$help`` to get a full list of my featues\n• This message is not editable by the server your joining, please be sure to read their rules and welcome page to make sure you aren't missing anything. ",inline=False)
     embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)",inline=False)
 
     await member.dm_channel.send(embed=embed)
@@ -502,5 +506,285 @@ async def on_message(message):
 	if message.content == "rick":
 		await message.channel.send("Wubbalubbadubdub")
 	await bot.process_commands(message) # INCLUDES THE COMMANDS FOR THE BOT. WITHOUT THIS LINE, YOU CANNOT TRIGGER YOUR COMMANDS.
+
+###########################################################################################################################
+#############################################Legacy Commands ($)############################################################
+##############)#############################################################################################################
+
+##############Allows for the update channel to be changed (working)##############################################################################
+@bot.command(name="updatechannel",pass_context=True,help="•Changes the public announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel updates are sent to")
+@has_permissions(manage_guild=True)
+async def updatechannel(ctx):
+    with open("welcomechannels.json", "r") as f:
+        guildInfo = json.load(f)
+
+    guildInfo[ctx.message.guild.id] = ctx.message.channel.id #sets channel to send message to as the channel the command was sent to
+
+    with open("welcomechannels.json", "w") as f:
+        json.dump(guildInfo, f)
+    await ctx.send(f'You have successfully changed the update channel to this channel')
+    
+@updatechannel.error
+async def updatechannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the update channel.')
+
+##############Allows for the update channel to be checked (working)##############################################################################
+@bot.command(name="checkupdatechannel",pass_context=True,help="•Checks the public announcements channel.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel updates are sent to")
+@has_permissions(manage_guild=True)
+async def checkupdatechannel(ctx):
+    with open("welcomechannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    await ctx.send(f'The update channel is set to {channel.name}')
+
+@checkupdatechannel.error
+async def checkupdatechannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to check the update channel.')
+        
+##############Allows for the admin channel to be changed (working)##############################################################################
+@bot.command(name="adminchannel",pass_context=True,help="•Changes the admin announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` to use this command\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel admin updates are sent to")
+@has_permissions(manage_guild=True)
+async def adminchannel(ctx):
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+
+    guildInfo[ctx.message.guild.id] = ctx.message.channel.id #sets channel to send message to as the channel the command was sent to
+
+    with open("adminchannels.json", "w") as f:
+        json.dump(guildInfo, f)
+    await ctx.send(f'You have successfully changed the admin channel to this channel')
+
+@adminchannel.error
+async def adminchannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to change the admin channel.')
+
+##############Allows for the admin channel to be checked (working)##############################################################################
+@bot.command(name="checkadminchannel",pass_context=True,help="•Checks the admin update channel.\n•You will need to be able to `Manage Server` people to use this command\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel admin updates are sent to")
+@has_permissions(manage_guild=True)
+async def checkadminchannel(ctx):
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    await ctx.send(f'The admin channel is set to {channel.name}')
+
+@checkadminchannel.error
+async def checkadminchannel_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to check the admin channel.')
+            
+##############Anouncement command (working)###########################################################################################
+@bot.command(name="announce",pass_context=True,help="•Sends announcements (see below)\n•Need permission `Manage Server` to use this commmand\n•$announce hello - sends an announcement in the update channel\n•$announce 123456789 hello - sends an announcement in the channel ID specified\n•Channel ID is an optional arguement\n•Use developer mode and right click a channel to get the ID",brief="•Sends announcements to the channel of your choice")
+@has_permissions(manage_guild=True)
+async def announce(ctx, *, message):
+    if message.split()[0].isdigit():
+        isChannelIDincluded = bot.get_channel(int(message.split()[0])) is not None
+    else:
+        isChannelIDincluded = False
+    if isChannelIDincluded:
+        embed = discord.Embed(title="Announcement",description=message[message.index(' ') + 1:],color=0x9208ea)
+    else:
+        embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
+    embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
+    if not isChannelIDincluded:
+        with open("welcomechannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    else:
+        channel = bot.get_channel(int(message.split()[0]))
+    await channel.send(embed=embed)
+    channelname = channel.name
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    await channel.send(f'**{ctx.message.author}** sent an announcement in the {channelname} channel')
+
+@announce.error
+async def announce_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+         await ctx.send(f'Sorry **{ctx.message.author}**, you need the permission `Manage Server` to make announcements.')
+
+##############Server count command (working)###########################################################################################
+@bot.command(name="servercount",pass_context=True,help="•Lists the number of servers Robo Rick is active in",brief="•Lists the number of servers Robo Rick is active in")
+async def servercount(ctx):
+    await ctx.channel.send("I'm currently active in " + str(len(bot.guilds)) + " servers!")
+
+##############$Kick command (working)###########################################################################################
+@bot.command(name="kick",pass_context=True,help="•Kicks a member of the server (Needs permission kick members for this command)\n•Sends an update in the admin channel saying what happened\n•$kick Morty - kicks Morty for no reason\n•$kick Summer because shes annoying - kicks Summer because shes being annoying.\n•Summer and Morty would be sent messages saying that they were kicked for either no reason or the reason you specified\n•The admin channel will also see who kicked who for what reason if one was specified",brief="•Kicks a member from the server with or without a reason")
+@has_permissions(kick_members=True)
+async def kick(ctx, user: discord.Member, *, reason = None):
+  if not reason:
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been kicked for **no reason** by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been kicked from **{ctx.message.guild}** for **reason not specified**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    await user.kick()
+
+  else:
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+    await user.send(f'Hello **{user}**, you have been kicked from **{ctx.message.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+    await channel.send(f"**{user}** has been kicked for **{reason}** by **{ctx.message.author}**.")
+    await user.kick(reason=reason)
+
+@kick.error
+async def kick_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to kick members.')
+
+        
+##############Ban command (working)###########################################################################################
+@bot.command(name="ban",pass_context=True,help="•Bans a member of the server (Needs permission ban members for this command)\n•Sends an update in the admin channel saying what happened\n•$ban Morty - bans Morty for no reason\n•$ban Summer because shes annoying - bans Summer because shes being annoying.\n•Summer and Morty would be sent messages saying that they were banned for either no reason or the reason you specified\n•The admin channel will also see who banned who for what reason if one was specified",brief="•Bans a member from the server with or without a reason")
+@has_permissions(ban_members=True)
+async def ban(ctx, user: discord.Member, *, reason = None):
+  if not reason:
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been banned for **no reason** by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **reason not specified**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    await user.ban()
+
+  else:
+    
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+    await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+    await channel.send(f"**{user}** has been banned for **{reason}** by **{ctx.message.author}**.")
+    await user.ban(reason=reason)
+
+@ban.error
+async def ban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
+
+##############Unban command (working)###########################################################################################
+@bot.command(name="unban",pass_context=True,help="•Unbans a member of the server (Needs permission ban members for this command). Syntax: '$unban User#1234'. Do not use the @name like you can with ban and kick",brief="•Unbans someone from the server")
+@has_permissions(ban_members=True)
+@guild_only()
+async def unban(ctx, *, member,):
+  banned_users = await ctx.guild.bans()
+  member_name, member_discriminator = member.split('#')
+  for ban_entry in banned_users:
+    user = ban_entry.user
+  
+  if (user.name, user.discriminator) == (member_name, member_discriminator):
+    await ctx.guild.unban(user)
+
+    with open("adminchannels.json", "r") as f:
+        guildInfo = json.load(f)
+    channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+    await channel.send(f"**{user}** has been unbanned by **{ctx.message.author}**.")
+
+    await user.send(f'Hello **{user}**, you have been unbanned from **{ctx.message.guild}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    return
+
+@unban.error
+async def unban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to unban members.')
+
+##############Temporary Ban command (working)###########################################################################################               
+@bot.command(name="tempban",pass_context=True,help="•Bans a member of the server for a number of days (Needs permission ban members for this command)\n•Sends an update in the admin channel saying what happened\n•$tempban Morty 2 - bans Morty for no reason for 2 days\n•$tempban Summer 3 because shes annoying - bans Summer because shes being annoying for 3 days.\n•Summer and Morty would be sent messages saying that they were banned for either no reason or the reason you specified and it will tell them for how many days\n•The admin channel will also see who banned who for what reason if one was specified and for how long\n•Both the user and admin channel will be notified when someone has been unbanned because the time period expired",brief="•Temporarily bans a member from the server with or without a reason for a certain amount of days")
+@has_permissions(ban_members=True)
+async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
+    if not reason:
+    
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+        await channel.send(f"**{user}** has been banned for **no reason** by **{ctx.message.author}** for **{duration}** days.")
+
+        await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **reason not specified** for **{duration}** days. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+        await user.ban()
+
+        #Unban process below
+        await asyncio.sleep(duration*60*60*24)
+        await ctx.guild.unban(user)
+
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+    
+        await channel.send(f"**{user}** has been unbanned after **{duration}** days.")
+        
+    else:
+    
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
+
+        await user.send(f'Hello **{user}**, you have been banned from **{ctx.message.guild}** for **{reason}** for **{duration}** days. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+    
+        await channel.send(f"**{user}** has been banned for **{reason}** by **{ctx.message.author}** for **{duration}** days.")
+        await user.ban(reason=reason)
+
+        #Unban process below
+        await asyncio.sleep(duration*60*60*24)
+        await ctx.guild.unban(user)
+
+        await channel.send(f"**{user}** has been unbanned after **{duration}** days.")
+        await user.send(f'Hello **{user}**, you have been unbanned from **{ctx.message.guild}** after **{duration}** days for **{reason}**. This message has been automatically sent by Robo Rick. Please contact the server Admins of **{ctx.message.guild}** for questions or concerns')
+        
+@tempban.error
+async def tempban_error(ctx, error):
+    if isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to ban members.')
+
+##############Reponds to $ping (working)########################################################################################################
+@bot.command(
+	help="•Responds with Pong and the bots server latency", 	# ADDS THIS VALUE TO THE $HELP PING MESSAGE.
+	brief="•Responds with Pong and the bots server latency" # ADDS THIS VALUE TO THE $HELP MESSAGE.
+)
+async def ping(ctx):
+	await ctx.channel.send(f'🏓 Pong! {round(bot.latency * 1000)}ms') # SENDS A MESSAGE TO THE CHANNEL USING THE CONTEXT OBJECT.
+
+##############Reponds to $donate (working)########################################################################################################
+@bot.command(
+	help="•Brings up information on how to donate towards Robo Ricks development", 	
+	brief="•Brings up information on how to donate towards Robo Ricks development" 
+)
+async def donate(ctx):
+    embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" Hello **{ctx.message.author}**, I'm glad someone finally appreciates my genius! Thank you for your interest in donating! Your donation will help with the cost of hosting and developing me for servers like **{ctx.message.guild}**!")
+
+    embed.set_thumbnail(url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/DonateQRCode.png")
+    embed.set_author(name="Robo Rick", url="https://top.gg/bot/827681932660965377", icon_url="https://raw.githubusercontent.com/TrevorSLong/Robo-Rick/main/Screenshots/rick.jpg")
+
+    embed.add_field(name="Help support my growth", value="I was made by two full time students, if you enjoy having me around please consider **supporting my development** by contributing code to me [here](https://github.com/DroTron/Robo-Rick) or **donating** to help fund development and hosting costs [here](https://www.paypal.com/donate?hosted_button_id=RBYUJ5M6QSB52)")
+
+    await ctx.channel.send(embed=embed)
+
+##############Responds to $help (working)########################################################################################################
+help_command = commands.DefaultHelpCommand(
+    no_category = 'Commands'
+)
+@bot.command(
+	help="Looks like you need some help.", # ADDS THIS VALUE TO THE $HELP PRINT MESSAGE.
+	brief="Prints the list of values back to the channel." # ADDS THIS VALUE TO THE $HELP MESSAGE.
+)
+async def print(ctx, *args):
+	response = ""
+	for arg in args:
+		response = response + " " + arg
+	await ctx.channel.send(response)
+
 
 bot.run(TOKEN)
