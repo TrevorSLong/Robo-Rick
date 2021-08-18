@@ -15,31 +15,7 @@
 ###########################################################################################################################
 #############################################      Setup       ############################################################
 ###########################################################################################################################
-
-############# Detect role changes ##############################################################################
-@bot.event
-async def on_member_update(before, after):
-
-    if len(before.roles) < len(after.roles):
-        # The user has gained a new role, so lets find out which one
-        newRole = next(role for role in after.roles if role not in before.roles)
-
-        with open("adminchannels.json", "r") as f:
-            guildInfo = json.load(f)
-        channel = bot.get_channel(guildInfo[str(before.guild.id)])
-
-        await channel.send(f'Member **{before.name}** has gained the role of **{newRole.name}**.')
-
-    if len(after.roles) < len(before.roles):
-        # The user has gained a new role, so lets find out which one
-        newRole = next(role for role in before.roles if role not in after.roles)
-
-        with open("adminchannels.json", "r") as f:
-            guildInfo = json.load(f)
-        channel = bot.get_channel(guildInfo[str(before.guild.id)])
-
-        await channel.send(f'Member **{before.name}** has lost the role of **{newRole.name}**.')
-        
+#         
 ##############Import Libraries###########################################################################################
 import discord
 import os
@@ -115,6 +91,30 @@ logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(level
 ###########################################################################################################################
 #############################################      Events      ############################################################
 ###########################################################################################################################
+
+############# Detect role changes ##############################################################################
+@bot.event
+async def on_member_update(before, after):
+
+    if len(before.roles) < len(after.roles):
+        # The user has gained a new role, so lets find out which one
+        newRole = next(role for role in after.roles if role not in before.roles)
+
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(before.guild.id)])
+
+        await channel.send(f'Member **{before.name}** has gained the role of **{newRole.name}**.')
+
+    if len(after.roles) < len(before.roles):
+        # The user has gained a new role, so lets find out which one
+        newRole = next(role for role in before.roles if role not in after.roles)
+
+        with open("adminchannels.json", "r") as f:
+            guildInfo = json.load(f)
+        channel = bot.get_channel(guildInfo[str(before.guild.id)])
+
+        await channel.send(f'Member **{before.name}** has lost the role of **{newRole.name}**.')
 
 #############Adds server to json database on bot server join (working)##############################################################################
 @bot.event
