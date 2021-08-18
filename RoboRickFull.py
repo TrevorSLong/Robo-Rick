@@ -547,9 +547,42 @@ async def checkadminchannel_error(ctx, error):
     if isinstance(error, MissingPermissions):
         await ctx.send(f'Sorry **{ctx.author}**, you need the permission `Manage Server` to check the admin channel.')
             
+############## Brings up version and changelog ##############################################################################
+@slash.slash(
+            description="Brings up version and changelog",
+            )
+async def changelog(ctx:SlashContext):
+    await ctx.send(
+        "**Robo Rick version 2.12:**\nWhats new:\n-Slash commands are here! All old commands have been ported to slash commands! All old commands are still available. **If you don't see slash commands showing up type $getslashcommands to find out how to get them.**\n-When someone gains or loses a role Robo Rick will announce the change in Admin update channel."
+    )          
+
 ###########################################################################################################################
 #############################################Legacy Commands ($)############################################################
-##############)#############################################################################################################
+###########################################################################################################################
+
+############## Brings up version and changelog ##############################################################################
+@bot.command(
+            name="changelog",
+            pass_context=True,
+            help="•Shows version number and recent changes to Robo Rick",
+            brief="•Shows version number and recent changes to Robo Rick"
+            )
+async def changelog(ctx):
+    await ctx.channel.send(
+        "**Robo Rick version 2.12:**\nWhats new:\n-Slash commands are here! All old commands have been ported to slash commands! All old commands are still available. **If you don't see slash commands showing up type $getslashcommands to find out how to get them.**\n-When someone gains or loses a role Robo Rick will announce the change in Admin update channel."
+    )          
+
+############## Instructions to get slash commands ##############################################################################
+@bot.command(
+            name="getslashcommands",
+            pass_context=True,
+            help="•Shows instructions for how to get Robo Ricks slash commands on your server",
+            brief="•Shows instructions for how to get Robo Ricks slash commands on your server"
+            )
+async def getslashcommands(ctx):
+    await ctx.channel.send(
+        "**To get slash commands:**\n-Kick Robo Rick from your server (right click on the right side and hit `kick`)\n-Go to and re-add Robo Rick to the server\n-https://top.gg/bot/827681932660965377 (We'd appreciate an upvote while your there 😊)\n-Follow the steps to re-add him to your server\n-You will need to set your admin and updates channel again, type `/adminchannel` and `/updatechannel` to do so\n-Finally, we'd like to thank you for using Robo Rick, if you are interested in supporting the development of features like this, type `/donate` to help develope the code or donate towards hosting and development costs. Thanks! Enjoy the new features!"
+    )         
 
 ##############Allows for the update channel to be changed (working)##############################################################################
 @bot.command(name="updatechannel",pass_context=True,help="•Changes the public announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel updates are sent to")
