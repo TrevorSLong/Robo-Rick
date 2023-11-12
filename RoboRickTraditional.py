@@ -54,30 +54,30 @@ async def on_ready():
 async def on_guild_join(guild):
 
 #------------------ Set default update channel (working)------------------
-    with open("welcomechannels.json", "r") as f:   #loads json file to dictionary
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:   #loads json file to dictionary
         guildInfo = json.load(f)
 
     guildInfo[guild.id] = guild.text_channels[0].id #sets key to guilds id and value to top textchannel
     
     #writes dictionary to json file
-    with open("welcomechannels.json", "w") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "w") as f:
         json.dump(guildInfo, f)
 
 #------------------ Set default admin channels (working)------------------
         
     #loads json file to dictionary
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
 
     guildInfo[guild.id] = guild.text_channels[0].id #sets key to guilds id and value to top textchannel
     
     #writes dictionary to json file
-    with open("adminchannels.json", "w") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "w") as f:
         json.dump(guildInfo, f)
 
 #------------------ Sends join message (working) ------------------
 
-    with open("welcomechannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guild.text_channels[0].id)
     embed = discord.Embed(colour=discord.Colour(0x788dee), url="https://discordapp.com", description=f" I turned myself into a Discord bot, **{guild}**! Boom! Big reveal: I'm a Discord bot. What do you think about that? I turned myself into a Discord bot! W-what are you just staring at me for, bro. I turned myself into a Discord bot, **{guild}**!")
@@ -95,12 +95,12 @@ async def on_guild_join(guild):
 @bot.command(name="updatechannel",pass_context=True,help="•Changes the public announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel updates are sent to")
 @has_permissions(manage_guild=True)
 async def updatechannel(ctx):
-    with open("welcomechannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
 
     guildInfo[ctx.message.guild.id] = ctx.message.channel.id #sets channel to send message to as the channel the command was sent to
 
-    with open("welcomechannels.json", "w") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "w") as f:
         json.dump(guildInfo, f)
     await ctx.send(f'You have successfully changed the update channel to this channel')
     
@@ -113,7 +113,7 @@ async def updatechannel_error(ctx, error):
 @bot.command(name="checkupdatechannel",pass_context=True,help="•Checks the public announcements channel.\n•You will need to be able to `Manage Server` people to use this command\n•Welcome messages, announcements, and leave messages are sent here\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel updates are sent to")
 @has_permissions(manage_guild=True)
 async def checkupdatechannel(ctx):
-    with open("welcomechannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     await ctx.send(f'The update channel is set to {channel.name}')
@@ -127,12 +127,12 @@ async def checkupdatechannel_error(ctx, error):
 @bot.command(name="adminchannel",pass_context=True,help="•Changes the admin announcements channel to the channel that you used the command in.\n•You will need to be able to `Manage Server` to use this command\n•By default this channel is set to the top text channel in your server",brief="•Changes the channel admin updates are sent to")
 @has_permissions(manage_guild=True)
 async def adminchannel(ctx):
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
 
     guildInfo[ctx.message.guild.id] = ctx.message.channel.id #sets channel to send message to as the channel the command was sent to
 
-    with open("adminchannels.json", "w") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "w") as f:
         json.dump(guildInfo, f)
     await ctx.send(f'You have successfully changed the admin channel to this channel')
 
@@ -145,7 +145,7 @@ async def adminchannel_error(ctx, error):
 @bot.command(name="checkadminchannel",pass_context=True,help="•Checks the admin update channel.\n•You will need to be able to `Manage Server` people to use this command\n•By default this channel is set to the top text channel in your server",brief="•Checks the channel admin updates are sent to")
 @has_permissions(manage_guild=True)
 async def checkadminchannel(ctx):
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     await ctx.send(f'The admin channel is set to {channel.name}')
@@ -169,14 +169,14 @@ async def announce(ctx, *, message):
         embed = discord.Embed(title="Announcement",description=message,color=0x9208ea)
     embed.set_footer(text=f'-{ctx.message.author} and the {ctx.message.guild} Admin team')
     if not isChannelIDincluded:
-        with open("welcomechannels.json", "r") as f:
+        with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
             guildInfo = json.load(f)
         channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     else:
         channel = bot.get_channel(int(message.split()[0]))
     await channel.send(embed=embed)
     channelname = channel.name
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     await channel.send(f'**{ctx.message.author}** sent an announcement in the {channelname} channel')
@@ -198,7 +198,7 @@ async def kick(ctx, user: discord.Member, *, reason = None):
   if not reason:
     await user.kick()
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
@@ -209,7 +209,7 @@ async def kick(ctx, user: discord.Member, *, reason = None):
   else:
     await user.kick(reason=reason)
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
 
@@ -230,7 +230,7 @@ async def ban(ctx, user: discord.Member, *, reason = None):
   if not reason:
     await user.ban()
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
@@ -241,7 +241,7 @@ async def ban(ctx, user: discord.Member, *, reason = None):
   else:
     await user.ban(reason=reason)
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
 
@@ -267,7 +267,7 @@ async def unban(ctx, *, member,):
   if (user.name, user.discriminator) == (member_name, member_discriminator):
     await ctx.guild.unban(user)
 
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
@@ -288,7 +288,7 @@ async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
     if not reason:
         await user.ban()
     
-        with open("adminchannels.json", "r") as f:
+        with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
             guildInfo = json.load(f)
         channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
@@ -300,7 +300,7 @@ async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
         await asyncio.sleep(duration*60*60*24)
         await ctx.guild.unban(user)
 
-        with open("adminchannels.json", "r") as f:
+        with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
             guildInfo = json.load(f)
         channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
     
@@ -309,7 +309,7 @@ async def tempban(ctx, user: discord.Member, duration: int, *, reason = None):
     else:
         await user.ban(reason=reason)
     
-        with open("adminchannels.json", "r") as f:
+        with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
             guildInfo = json.load(f)
         channel = bot.get_channel(guildInfo[str(ctx.message.guild.id)])
 
@@ -348,7 +348,7 @@ async def on_member_join(member):
     await member.dm_channel.send(embed=embed)
 
 ###########Sends welcome message in update channel###########
-    with open("welcomechannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
 
@@ -372,7 +372,7 @@ async def on_member_join(member):
     randomwelcome = random.choice(welcomemessages)
     await channel.send(randomwelcome)
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
@@ -382,13 +382,13 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     
-    with open("welcomechannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/welcomechannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
     await channel.send(f'Looks like **{member.name}** decided to leave, good riddance.')
     
-    with open("adminchannels.json", "r") as f:
+    with open("/root/robot-rick/Robo-Rick/adminchannels.json", "r") as f:
         guildInfo = json.load(f)
     channel = bot.get_channel(guildInfo[str(member.guild.id)])
     
