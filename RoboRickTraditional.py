@@ -424,25 +424,6 @@ async def donate(ctx):
 
     await ctx.channel.send(embed=embed)
 
-
-###############3080/3070 stock announcement (manually announce in multiple channels that something happened with one command)######################################################################
-@bot.command(name="bbyinstock",pass_context=True,help="•BBYInStock is specific to the creators server, this will not work on your server. $bbyinstock sends an announcement in 3070/3080 channels that best buy has stock of 3070/3080, to be triggered manually by Admin or Mod",brief="•Sends an announcement in 3070/3080 channels that Best Buy has stock of 3070/3080, to be triggered manually by Admin or Mod")
-@has_permissions(kick_members=True)
-async def bbyinstock(ctx):
-    if ctx.message.guild == 'Froopyland':
-        channel = bot.get_channel(int(C3080_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
-        channel = bot.get_channel(int(C3070_ID))
-        await channel.send(f'RTX3000 Cards in stock at Best Buy!\n[3080 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440)\n[3070 FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442)\n[3060TI FE](https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402)\nThis stock announcement was manually sent by **{ctx.message.author}**')
-    else:
-        await ctx.channel.send(f'Sorry **{ctx.message.author}**, this command is not ready for your server')
-        
-@bbyinstock.error
-async def bbyinstock_error(ctx, error):
-    if isinstance(error, MissingPermissions):
-        await ctx.send(f'Sorry **{ctx.message.author}**, you do not have permission to announce RTX3000 stock.')
-
-
 ##############Responds to $help (working)########################################################################################################
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands'
