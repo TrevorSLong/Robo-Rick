@@ -9,8 +9,8 @@ services:
       - dbl_token=${dbl_token}
     volumes:
       # Persist channel settings across restarts
-      - ./adminchannels.JSON:/app/adminchannels.JSON
-      - ./welcomechannels.JSON:/app/welcomechannels.JSON
+      - ./adminchannels.json:/app/adminchannels.json
+      - ./welcomechannels.json:/app/welcomechannels.json
     networks:
       cantserv:
         ipv4_address: 192.168.127.90

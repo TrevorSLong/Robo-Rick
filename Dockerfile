@@ -7,9 +7,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy bot code
-COPY RoboRickFull.py .
-COPY adminchannels.JSON .
-COPY welcomechannels.JSON .
+COPY RoboRickSlash.py .
 
 # Run the bot
-CMD ["python", "RoboRickFull.py"]
+CMD ["python", "RoboRickSlash.py"]
