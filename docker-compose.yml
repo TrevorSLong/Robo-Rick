@@ -1,0 +1,21 @@
+services:
+  robo-rick:
+    build: .
+    container_name: robo-rick
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - BOT_UPDATE_CHANNEL=${BOT_UPDATE_CHANNEL}
+      - dbl_token=${dbl_token}
+    volumes:
+      # Persist channel settings across restarts
+      - ./adminchannels.JSON:/app/adminchannels.JSON
+      - ./welcomechannels.JSON:/app/welcomechannels.JSON
+    networks:
+      cantserv:
+        ipv4_address: 192.168.127.90
+
+networks:
+  cantserv:
+    name: br1.1227
+    external: true

@@ -1,5 +1,14 @@
 # Ignore files related to API keys
 .env
+
 # Ignore JSON database
 *.JSON
 *.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Docker (local builds)
+.docker/
