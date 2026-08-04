@@ -1,3 +1,5 @@
+> **NOTICE:** This repository has been migrated to Gitlab, any future updates will be committed [here](https://gitlab.com/trevor-longs-code/Robo-Rick)
+
 # Robo-Rick
 
 A Rick and Morty themed Discord bot for welcome messages, moderation, and server management.
